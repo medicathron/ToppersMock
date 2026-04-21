@@ -1213,7 +1213,7 @@ const QUESTION_BANK = [
     ans: 2
   },
   {
-    q: "The precise temperature assigned to the triple point of water on the Kelvin scale is:",
+    q: "The precise temperature assigned to the triple point of water is:",
     opts: ["273.15 K", "273.16 K", "373.15 K", "0.01 K"],
     ans: 1
   },
@@ -1229,12 +1229,12 @@ const QUESTION_BANK = [
   },
   {
     q: "The thermometric quantity used in a thermocouple thermometer is:",
-    opts: ["The expansion of a liquid column", "The electrical resistance of a platinum wire", "The electromotive force (EMF) generated at the junction", "The pressure of a gas at constant volume"],
+    opts: ["The expansion of a liquid column", "The electrical resistance of a platinum wire", "The electromotive force generated at the junction", "The pressure of a gas at constant volume"],
     ans: 2
   },
   {
     q: "At the condition known as absolute zero, the pressure of an ideal gas approaches which value?",
-    opts: ["Its maximum possible value", "Standard atmospheric pressure (1 atm)", "Zero", "A small but measurable negative value"],
+    opts: ["Its maximum possible value", "Standard atmospheric pressure", "Zero", "A small but measurable negative value"],
     ans: 2
   },
   {
@@ -1258,7 +1258,7 @@ const QUESTION_BANK = [
     ans: 1
   },
   {
-    q: "The standard steam point (boiling point of water at 760 mmHg) corresponds to which Fahrenheit temperature?",
+    q: "The standard steam point corresponds to which Fahrenheit temperature?",
     opts: ["100°F", "180°F", "212°F", "232°F"],
     ans: 2
   },
@@ -1304,7 +1304,7 @@ const QUESTION_BANK = [
   },
   {
     q: "Water flows at 0.150 kg/min through a heated tube (heater power 25.2 W). Inlet and outlet temperatures are 15.2°C and 17.4°C respectively. When flow rate is increased to 0.2318 kg/min and power to 37.8 W with the same inlet/outlet temperatures, what is the specific heat capacity of water?",
-    opts: ["3800 J/(kg·K)", "4000 J/(kg·K)", "4200 J/(kg·K)", "4500 J/(kg·K)"],
+    opts: ["3800 J/(kg·K)", "4090 J/(kg·K)", "4250 J/(kg·K)", "420 J/(kg·K)"],
     ans: 2
   },
   {
@@ -1328,17 +1328,17 @@ const QUESTION_BANK = [
     ans: 1
   },
   {
-    q: "In the process W = ∫P dV, if a gas is compressed (volume decreases), the sign of W for the gas is:",
-    opts: ["Positive — work done by the gas", "Negative — work is done on the gas", "Zero — volume change is irrelevant to work", "Positive only if pressure is constant"],
-    ans: 1
+    q: "In the process W = ∫P dV, if a gas is compressed, the sign of W for the gas is:",
+    opts: ["Positive — work done by the gas", "Negative — work is done by the gas", "Negative — Work is done on the gas", "Positive only if pressure is constant"],
+    ans: 2
   },
   {
-    q: "On a pressure-volume (PV) diagram, the physical quantity represented by the area under a process curve is:",
+    q: "On a PV diagram, the physical quantity represented by the area under a process curve is:",
     opts: ["The change in internal energy", "The temperature change", "The work done during that process", "The heat exchanged with the surroundings"],
     ans: 2
   },
   {
-    q: "A process in which no energy is exchanged as heat between the system and its surroundings (Q = 0) is called:",
+    q: "A process in which no energy is exchanged as heat between the system and its surroundings is called:",
     opts: ["Isothermal", "Isobaric", "Isochoric", "Adiabatic"],
     ans: 3
   },
@@ -1354,11 +1354,11 @@ const QUESTION_BANK = [
   },
   {
     q: "For an ideal gas undergoing an isothermal process, the change in internal energy ΔE_int equals:",
-    opts: ["Q", "W", "nRΔT", "Zero, since temperature is unchanged"],
+    opts: ["Q", "W", "nRΔT", "Zero"],
     ans: 3
   },
   {
-    q: "In an isovolumetric (constant-volume) process, the work done by the gas is zero because there is no change in volume. The First Law then reduces to:",
+    q: "In an isochoric process, the work done by the gas is zero. The First Law then reduces to:",
     opts: ["ΔE_int = 0", "ΔE_int = Q", "Q = 0", "W = Q"],
     ans: 1
   },
@@ -1379,12 +1379,12 @@ const QUESTION_BANK = [
   },
   {
     q: "The amount of work done as a gas changes state from an initial to a final equilibrium state depends on which of the following?",
-    opts: ["Only the initial and final state variables (P, V, T)", "The specific path taken between the two states", "Only the temperature of the gas", "Only the pressure applied"],
+    opts: ["Only the initial and final state variables ", "The specific path taken between the two states", "Only the temperature of the gas", "Only the pressure applied"],
     ans: 1
   },
   {
-    q: "On a PV diagram, if process AB is isovolumetric (vertical) and process BC is isobaric (horizontal), the total work done in going from A to C via path A→B→C equals:",
-    opts: ["W = P_f(V_f − V_i), since no work is done in the isovolumetric step", "W = P_i(V_f − V_i), since pressure stays at initial value", "W = nRT ln(V_f/V_i)", "W = 0, because one step is isovolumetric"],
+    q: "On a PV diagram, if process AB is isovolumetric and process BC is isobaric , the total work done in going from A to C via path A→B→C equals:",
+    opts: ["W = P_f(V_f − V_i)", "W = P_i(V_f − V_i)", "W = nRT ln(V_f/V_i)", "W = 0"],
     ans: 0
   },
   {
@@ -1393,7 +1393,7 @@ const QUESTION_BANK = [
     ans: 1
   },
   {
-    q: "When an ideal gas expands adiabatically (Q = 0), what happens to its temperature?",
+    q: "When an ideal gas expands adiabatically, what happens to its temperature?",
     opts: ["Temperature rises because the gas does work", "Temperature falls because internal energy is consumed doing work", "Temperature stays constant because no heat enters", "Volume decrease raises the temperature"],
     ans: 1
   },
@@ -1404,17 +1404,17 @@ const QUESTION_BANK = [
   },
   {
     q: "For a reversible adiabatic process involving an ideal gas, the relationship between pressure and volume is described by which expression?",
-    opts: ["PV = constant (Boyle's Law form)", "PV^γ = constant, where γ = C_p/C_v", "PV² = constant", "P/V = constant"],
+    opts: ["PV = constant", "PV^γ = constant", "PV² = constant", "P/V = constant"],
     ans: 1
   },
   {
     q: "In an adiabatic process, the relationship between temperature T and volume V for an ideal gas is:",
-    opts: ["T × V^(γ−1) = constant", "T × V = constant", "T / V = constant", "T × V^γ = constant"],
-    ans: 0
+    opts: ["T^γ × V^(γ−1) = constant", "T × V^(1-γ) = constant", "T × V^(γ−1) = constant", "T × V^γ = constant"],
+    ans: 2
   },
   {
-    q: "The expression for work done W in a reversible adiabatic process where PV^γ = c is:",
-    opts: ["W = nRT ln(V_f/V_i)", "W = P(V_f − V_i)", "W = [P_i V_i^γ / (1−γ)] × (V_f^(1−γ) − V_i^(1−γ))", "W = 0"],
+    q: "The expression for work done W in a reversible adiabatic process where:",
+    opts: ["W = nRT ln(V_f/V_i)", "W = P(V_f − V_i)", "W = [P_i V_i^γ / (1−γ)] × (V_f^(1−γ) − V_i^(1−γ))", "W = [P_i V_i^γ / (γ-1)] × (V_f^(γ-1) − V_i^(γ-1))"],
     ans: 2
   },
   {
@@ -1423,28 +1423,28 @@ const QUESTION_BANK = [
     ans: 1
   },
   {
-    q: "In an isobaric compression, P₂ = 5×10⁴ Pa, initial volume V₂ = 0.1 m³, final volume V₃ = 0.05 m³. The work done by the gas in this process W₂₃ is:",
+    q: "In an isobaric compression, P₂ = 5×10⁴ Pa, initial volume V₂ = 0.1 m³, final volume V₃ = 0.05 m³. The work done by the gas in this process is:",
     opts: ["2500 J", "−2500 J", "5000 J", "0 J"],
     ans: 1
   },
   {
     q: "A gas releases 4 kJ of heat while being compressed from 0.08 m³ to 0.05 m³ under a constant external pressure of 200 kPa. The change in internal energy of the gas is:",
-    opts: ["Decreases by 4 kJ", "Increases by 2 kJ", "Decreases by 2 kJ", "Stays unchanged"],
+    opts: ["Decreases by 10 kJ", "Increases by 2 kJ", "Decreases by 2 kJ", "Increases by 4 kJ"],
     ans: 1
   },
   {
     q: "The Equipartition of Energy Theorem, applied to translational motion, states that each independent translational degree of freedom contributes how much energy to the system?",
-    opts: ["k_B T", "(1/2) k_B T", "3 k_B T / 2", "R T"],
+    opts: ["kT", "(1/2)kT", "3kT/2", "nRT"],
     ans: 1
   },
   {
-    q: "How many independent translational degrees of freedom does a monoatomic ideal gas molecule possess?",
-    opts: ["1", "2", "3", "6"],
-    ans: 2
+    q: "How many independent rotational degrees of freedom does a monoatomic ideal gas molecule possess?",
+    opts: ["1", "2", "3", "0"],
+    ans: 3
   },
   {
-    q: "The total translational kinetic energy of N molecules of an ideal gas can be written as (3/2)NkT. In terms of moles n and the gas constant R, this is equivalently:",
-    opts: ["NkT", "(3/2)NkT (these are identical expressions)", "(1/2)NkT", "(3/2)nRT"],
+    q: "The total translational kinetic energy of N molecules of an ideal gas can be written as:",
+    opts: ["NkT", "(3/2)nkT", "(1/2)NkT", "(3/2)nRT"],
     ans: 3
   },
   {
@@ -1458,18 +1458,18 @@ const QUESTION_BANK = [
     ans: 2
   },
   {
-    q: "For a monoatomic ideal gas (C_v = 3R/2, C_p = 5R/2), the adiabatic index γ = C_p/C_v is:",
+    q: "For a monoatomic ideal gas, the adiabatic index is:",
     opts: ["1.20", "1.40", "1.67", "2.00"],
     ans: 2
   },
   {
-    q: "The root-mean-square (rms) speed of O₂ molecules at 300 K is closest to which value? (M = 32×10⁻³ kg/mol, R = 8.31 J/(mol·K))",
-    opts: ["288 m/s", "483 m/s", "768 m/s", "965 m/s"],
+    q: "The root-mean-square (rms) speed of O₂ molecules at 27° C is closest to which value?",
+    opts: ["288 m/s", "483 m/s", "1.52 m/s", "15.3 m/s"],
     ans: 1
   },
   {
     q: "A physics student argues that two thermometers filled with different liquids will always read identically at ALL temperatures as long as they are calibrated at the same two fixed points. Which of the following best explains why this argument is flawed?",
-    opts: ["The calibration fixed points used are not reproducible", "The thermal conductivity of each liquid varies differently with temperature", "Each liquid expands non-linearly and differently between the fixed points, so intermediate readings disagree", "The thermometer bulbs are made of different glass types"],
+    opts: ["The calibration fixed points used are not reproducible", "The thermal conductivity of each liquid varies differently with temperature", "Each liquid expands non-linearly and differently between the fixed points", "The thermometer bulbs are made of different glass types"],
     ans: 2
   },
   {
@@ -1484,8 +1484,8 @@ const QUESTION_BANK = [
   },
   {
     q: "A resistance thermometer has resistance 24.0 Ω at 0°C and 28.4 Ω at 100°C. What temperature does it indicate when its resistance is 25.6 Ω?",
-    opts: ["36.4°C", "40.0°C", "36.4°C", "44.4°C"],
-    ans: 0
+    opts: ["34.6°C", "40.0°C", "36.4°C", "44.4°C"],
+    ans: 2
   },
   {
     q: "The triple point of water is preferred over the ice point as a calibration standard primarily because:",
@@ -1509,7 +1509,7 @@ const QUESTION_BANK = [
   },
   {
     q: "A steel rail (α = 12×10⁻⁶ /°C) is 25.000 m at −10°C. A second rail of the same material is 25.000 m at 40°C. When both are at −10°C, what is the difference in their lengths?",
-    opts: ["0 m — they are equal", "15 mm", "0.015 m", "Both A and C are correct"],
+    opts: ["0 m", "15 mm", "0.015 m", "Both A and C are correct"],
     ans: 3
   },
   {
@@ -1644,7 +1644,7 @@ const QUESTION_BANK = [
   },
   {
     q: "A student claims that since γ = Cp/Cv, and both Cp and Cv increase with the number of degrees of freedom, the ratio γ should also increase for more complex molecules. Evaluate this claim:",
-    opts: ["The claim is correct — γ increases with molecular complexity", "The claim is wrong — γ decreases as degrees of freedom increase, because Cv grows faster than Cp (since Cp − Cv = R is fixed)", "The claim is correct only for polyatomic molecules", "γ is always equal to 1 for all ideal gases"],
+    opts: ["The claim is correct — γ increases with molecular complexity", "The claim is wrong — γ decreases as degrees of freedom increase", "The claim is correct only for polyatomic molecules", "γ is always equal to 1 for all ideal gases"],
     ans: 1
   },
   {
