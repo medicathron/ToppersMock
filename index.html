@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toppers Tutorial — PHY103 Mock Test</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --orange: #e05c1a;
+  --orange2: #f07030;
+  --orange-pale: #fff3ec;
+  --dark: #1c1612;
+  --dark2: #2e2820;
+  --text: #1c1612;
+  --muted: #857a6e;
+  --border: #e8e0d6;
+  --green: #1e7a45;
+  --green-pale: #eaf5ee;
+  --red: #c0392b;
+  --red-pale: #fdf0ee;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── PAGES ───────────────────────────────────── */
+.page { display: none; min-height: 100vh; }
+.page.active { display: flex; flex-direction: column; }
+
+
+/* ══════════════════════════════════════════════
+   HOME PAGE
+══════════════════════════════════════════════ */
+#page-home {
+  background: var(--dark);
+  color: white;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(224,92,26,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(240,112,48,0.10) 0%, transparent 60%);
+}
+
+.home-lines {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 59px,
+    rgba(255,255,255,0.03) 59px,
+    rgba(255,255,255,0.03) 60px
+  );
+}
+
+.home-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 40px 24px;
+  max-width: 560px;
+}
+
+.home-badge {
+  display: inline-block;
+  background: rgba(224,92,26,0.2);
+  border: 1px solid rgba(224,92,26,0.4);
+  color: #f4a06a;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 28px;
+  text-transform: uppercase;
+}
+
+.home-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  line-height: 1.15;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.home-title em {
+  font-style: italic;
+  color: var(--orange2);
+}
+
+.home-sub {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 48px;
+  line-height: 1.7;
+}
+
+.home-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.btn-primary {
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 16px 40px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  max-width: 320px;
+  letter-spacing: 0.01em;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-primary:hover { background: #c04e14; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-secondary {
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 16px 40px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  max-width: 320px;
+  letter-spacing: 0.01em;
+  transition: background 0.15s;
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.12); }
+
+.home-note {
+  margin-top: 40px;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.25);
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════════
+   BIO-DATA PAGE
+══════════════════════════════════════════════ */
+#page-bio {
+  background: var(--bg);
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+}
+
+.bio-header {
+  width: 100%;
+  background: var(--dark);
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bio-header-back {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.bio-header-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  color: white;
+}
+
+.bio-header-title span { color: var(--orange2); font-style: italic; }
+
+.bio-body {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+}
+
+.bio-intro {
+  margin-bottom: 28px;
+}
+
+.bio-intro h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+}
+
+.bio-intro p {
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--dark2);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+label span.req { color: var(--orange); }
+
+input, select {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+  transition: border 0.15s;
+  appearance: none;
+}
+
+input:focus, select:focus { border-color: var(--orange); }
+input.error, select.error { border-color: var(--red); }
+
+.input-hint {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.input-error {
+  font-size: 0.72rem;
+  color: var(--red);
+  margin-top: 4px;
+  display: none;
+}
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.gender-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.gender-opt {
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 500;
+  background: var(--surface);
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.gender-opt input[type="radio"] {
+  width: 18px; height: 18px;
+  accent-color: var(--orange);
+  flex-shrink: 0;
+}
+
+.gender-opt:has(input:checked) {
+  border-color: var(--orange);
+  background: var(--orange-pale);
+  color: var(--orange);
+}
+
+.aimed-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.aimed-row input[type="range"] {
+  flex: 1;
+  height: 6px;
+  accent-color: var(--orange);
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.aimed-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--orange);
+  width: 44px;
+  text-align: right;
+}
+
+.submit-bio {
+  width: 100%;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 28px;
+  transition: background 0.15s;
+}
+.submit-bio:hover { background: #c04e14; }
+
+/* ══════════════════════════════════════════════
+   INSTRUCTIONS PAGE
+══════════════════════════════════════════════ */
+#page-instructions {
+  background: var(--dark);
+  color: white;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+.inst-wrap {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+}
+
+.inst-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orange2);
+  margin-bottom: 12px;
+}
+
+.inst-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.inst-title em { font-style: italic; color: var(--orange2); }
+
+.inst-meta {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.inst-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.7);
+}
+
+.inst-pill strong { color: white; }
+
+.inst-rules {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 28px;
+}
+
+.inst-rules h3 {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--orange2);
+  margin-bottom: 16px;
+}
+
+.inst-rules ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inst-rules li {
+  display: flex;
+  gap: 12px;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.75);
+}
+
+.inst-rules li::before {
+  content: "—";
+  color: var(--orange2);
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.inst-motivation {
+  border-left: 3px solid var(--orange);
+  padding: 20px 20px 20px 24px;
+  margin-bottom: 32px;
+  background: rgba(224,92,26,0.06);
+  border-radius: 0 10px 10px 0;
+}
+
+.inst-motivation p {
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.7);
+  font-style: italic;
+}
+
+.inst-motivation p + p { margin-top: 12px; }
+
+.start-btn {
+  width: 100%;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  letter-spacing: 0.02em;
+}
+.start-btn:hover { background: #c04e14; }
+
+/* ══════════════════════════════════════════════
+   QUIZ PAGE
+══════════════════════════════════════════════ */
+#page-quiz {
+  background: var(--bg);
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Top bar */
+.quiz-topbar {
+  background: var(--dark);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.quiz-name {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.6);
+  font-weight: 500;
+}
+
+.quiz-name strong { color: white; }
+
+.quiz-progress-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.5);
+}
+
+.quiz-progress-text strong { color: var(--orange2); }
+
+.quiz-timer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: white;
+}
+
+.quiz-timer.warning { background: rgba(224,92,26,0.25); border-color: rgba(224,92,26,0.5); color: #f4a06a; }
+.quiz-timer.critical { background: rgba(192,57,43,0.3); border-color: rgba(192,57,43,0.6); color: #ff7c6e; animation: pulse-timer 1s infinite; }
+
+@keyframes pulse-timer { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+
+.quiz-progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--orange);
+  transition: width 0.4s;
+}
+
+/* Scrollable question area */
+.quiz-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px 20px 16px;
+  -webkit-overflow-scrolling: touch;
+  min-height: 0;
+}
+
+.q-number-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.q-text-display {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
+  line-height: 1.55;
+  margin-bottom: 22px;
+  color: var(--dark);
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.opt-btn {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text);
+  transition: all 0.15s;
+  width: 100%;
+}
+
+.opt-btn:hover { border-color: var(--orange2); background: var(--orange-pale); }
+
+.opt-btn.selected {
+  border-color: var(--orange);
+  background: var(--orange-pale);
+}
+
+.opt-letter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  background: var(--border);
+  color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.opt-btn.selected .opt-letter {
+  background: var(--orange);
+  color: white;
+}
+
+.quiz-nav {
+  display: flex;
+  gap: 10px;
+  padding: 0 0 4px;
+}
+
+.nav-btn {
+  flex: 1;
+  padding: 13px;
+  border-radius: 9px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+
+.nav-prev {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+}
+.nav-prev:hover { border-color: var(--dark); }
+.nav-prev:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.nav-next {
+  background: var(--dark);
+  color: white;
+}
+.nav-next:hover { background: var(--dark2); }
+
+.nav-submit {
+  background: var(--orange);
+  color: white;
+}
+.nav-submit:hover { background: #c04e14; }
+
+/* Static bottom nav strip */
+.quiz-bottom {
+  flex-shrink: 0;
+  background: var(--surface);
+  border-top: 1.5px solid var(--border);
+  padding: 10px 16px 14px;
+  z-index: 10;
+}
+
+.bottom-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.q-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.q-dot {
+  width: 22px; height: 22px;
+  border-radius: 5px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  background: var(--bg);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  transition: all 0.12s;
+  flex-shrink: 0;
+}
+
+.q-dot.answered { background: var(--green); color: white; border-color: var(--green); }
+.q-dot.current { background: var(--orange); color: white; border-color: var(--orange); }
+.q-dot.answered.current { background: var(--orange); border-color: var(--orange); }
+
+/* ══════════════════════════════════════════════
+   SUBMITTING PAGE
+══════════════════════════════════════════════ */
+#page-submitting {
+  background: var(--dark);
+  color: white;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.submit-anim {
+  width: 72px; height: 72px;
+  border: 3px solid rgba(224,92,26,0.3);
+  border-top-color: var(--orange);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 28px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.submit-msg {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.submit-sub {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ══════════════════════════════════════════════
+   DONE PAGE (after submit)
+══════════════════════════════════════════════ */
+#page-done {
+  background: var(--dark);
+  color: white;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.done-icon {
+  width: 64px; height: 64px;
+  background: rgba(30,122,69,0.2);
+  border: 2px solid rgba(30,122,69,0.5);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem;
+  margin: 0 auto 24px;
+}
+
+.done-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.done-sub {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.7;
+  margin-bottom: 32px;
+  max-width: 360px;
+}
+
+.done-motivation {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 3px solid var(--orange);
+  border-radius: 0 10px 10px 0;
+  padding: 20px 24px;
+  text-align: left;
+  max-width: 440px;
+  margin: 0 auto 28px;
+}
+
+.done-motivation p {
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.65);
+  font-style: italic;
+}
+.done-motivation p + p { margin-top: 10px; }
+
+.done-btn {
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 32px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.done-btn:hover { background: #c04e14; }
+
+/* ══════════════════════════════════════════════
+   SCOREBOARD PAGE
+══════════════════════════════════════════════ */
+#page-scoreboard {
+  background: var(--bg);
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.sb-header {
+  width: 100%;
+  background: var(--dark);
+  padding: 20px 24px;
+}
+
+.sb-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sb-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.sb-title em { font-style: italic; color: var(--orange2); }
+
+.sb-back {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sb-sub {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.4);
+  margin-top: 4px;
+}
+
+.sb-body {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+
+.sb-count {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 14px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.sb-table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  background: var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+thead {
+  background: var(--dark);
+  color: white;
+}
+
+thead th {
+  padding: 13px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--orange-pale); }
+
+tbody td {
+  padding: 12px 14px;
+  color: var(--text);
+  vertical-align: middle;
+}
+
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--border);
+  color: var(--muted);
+}
+
+.rank-badge.gold { background: #f5c842; color: #7a5a00; }
+.rank-badge.silver { background: #d0d4da; color: #4a5060; }
+.rank-badge.bronze { background: #d4956a; color: #5a2a00; }
+
+.score-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.score-bar {
+  flex: 1;
+  height: 5px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 50px;
+}
+
+.score-bar-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 3px;
+}
+
+.pct-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--green);
+  white-space: nowrap;
+  min-width: 44px;
+}
+
+.empty-board {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+
+.empty-board h3 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; margin-bottom: 8px; }
+.empty-board p { font-size: 0.83rem; }
+
+/* ══════════════════════════════════════════════
+   MISC
+══════════════════════════════════════════════ */
+.hidden { display: none !important; }
+
+/* Confirm modal */
+.confirm-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.confirm-overlay.show { display: flex; }
+.confirm-box {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 28px 24px;
+  max-width: 360px;
+  width: 100%;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+}
+.confirm-box h3 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; margin-bottom: 8px; }
+.confirm-box p { font-size: 0.84rem; color: var(--muted); line-height: 1.6; margin-bottom: 22px; }
+.confirm-actions { display: flex; gap: 10px; }
+.confirm-actions button {
+  flex: 1; padding: 12px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600; cursor: pointer; border: none;
+}
+.btn-confirm-cancel { background: var(--bg); border: 1.5px solid var(--border) !important; color: var(--text); }
+.btn-confirm-ok { background: var(--orange); color: white; }
+
+</style>
+</head>
+<body>
+
+<!-- ── HOME ───────────────────────────────── -->
+<div id="page-home" class="page active">
+  <div class="home-bg"></div>
+  <div class="home-lines"></div>
+  <div class="home-content">
+    <div class="home-badge">PHY 103 &nbsp;|&nbsp; University of Ibadan</div>
+    <h1 class="home-title">Toppers Tutorial<br><em>Mock Test</em></h1>
+    <p class="home-sub">50 questions &nbsp;·&nbsp; 40 minutes &nbsp;·&nbsp; Heat and Thermodynamics<br>Assess your readiness before the real thing.</p>
+    <div class="home-actions">
+      <button class="btn-primary" onclick="goTo('bio')">Take a Quiz</button>
+      <button class="btn-secondary" onclick="goToScoreboard()">Check Scoreboard</button>
+    </div>
+    <p class="home-note">Powered by Toppers Tutorial &nbsp;|&nbsp; Medicathron</p>
+  </div>
+</div>
+
+<!-- ── BIO-DATA ───────────────────────────── -->
+<div id="page-bio" class="page">
+  <div class="bio-header">
+    <button class="bio-header-back" onclick="goTo('home')">&#8592;</button>
+    <div class="bio-header-title">Toppers Tutorial <em>PHY103</em></div>
+  </div>
+  <div class="bio-body">
+    <div class="bio-intro">
+      <h2>Your Details</h2>
+      <p>Fill in all fields correctly before proceeding. This information is used for the scoreboard and result tracking.</p>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Surname <span class="req">*</span></label>
+        <input type="text" id="inp-surname" placeholder="Joseph" autocomplete="off">
+        <div class="input-error" id="err-surname">Enter your surname</div>
+      </div>
+      <div class="form-group">
+        <label>First Name <span class="req">*</span></label>
+        <input type="text" id="inp-firstname" placeholder="Joseph" autocomplete="off">
+        <div class="input-error" id="err-firstname">Enter your first name</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Matric Number <span class="req">*</span></label>
+      <input type="text" id="inp-matric" placeholder="212121" maxlength="6" autocomplete="off">
+      <div class="input-hint">Exactly 6 digits — e.g. 212121</div>
+      <div class="input-error" id="err-matric">Enter a valid 6-digit matric number</div>
+    </div>
+
+    <div class="form-group">
+      <label>Phone Number <span class="req">*</span></label>
+      <input type="tel" id="inp-phone" placeholder="08012345678" autocomplete="off">
+      <div class="input-error" id="err-phone">Enter a valid phone number</div>
+    </div>
+
+    <div class="form-group">
+      <label>Gender <span class="req">*</span></label>
+      <div class="gender-row">
+        <label class="gender-opt"><input type="radio" name="gender" value="Male"> Male</label>
+        <label class="gender-opt"><input type="radio" name="gender" value="Female"> Female</label>
+      </div>
+      <div class="input-error" id="err-gender">Select your gender</div>
+    </div>
+
+    <div class="form-group">
+      <label>Faculty <span class="req">*</span></label>
+      <select id="inp-faculty" onchange="populateDepts()">
+        <option value="">-- Select Faculty --</option>
+        <option>Faculty of Science</option>
+        <option>Faculty of Technology</option>
+        <option>Faculty of Agriculture &amp; Forestry</option>
+        <option>Faculty of Pharmacy</option>
+        <option>College of Medicine</option>
+        <option>Faculty of Veterinary Medicine</option>
+        <option>Faculty of Public Health</option>
+        <option>Institute of Child Health</option>
+      </select>
+      <div class="input-error" id="err-faculty">Select your faculty</div>
+    </div>
+
+    <div class="form-group">
+      <label>Department <span class="req">*</span></label>
+      <select id="inp-dept">
+        <option value="">-- Select Department --</option>
+      </select>
+      <div class="input-error" id="err-dept">Select your department</div>
+    </div>
+
+    <div class="form-group">
+      <label>Aimed Score (%)</label>
+      <div class="aimed-row">
+        <input type="range" id="inp-aimed" min="0" max="100" step="5" value="70" oninput="document.getElementById('aimed-display').textContent=this.value+'%'">
+        <div class="aimed-val" id="aimed-display">70%</div>
+      </div>
+    </div>
+
+    <button class="submit-bio" onclick="submitBio()">Proceed to Instructions</button>
+  </div>
+</div>
+
+<!-- ── INSTRUCTIONS ───────────────────────── -->
+<div id="page-instructions" class="page">
+  <div class="inst-wrap">
+    <div class="inst-tag">Toppers Tutorial &nbsp;&#183;&nbsp; PHY103 Mock Exam</div>
+    <h1 class="inst-title">Before You<br><em>Begin</em></h1>
+
+    <div class="inst-meta">
+      <div class="inst-pill"><strong>50</strong>&nbsp;Questions</div>
+      <div class="inst-pill"><strong>40</strong>&nbsp;Minutes</div>
+      <div class="inst-pill">MCQ &nbsp;&#183;&nbsp; Single Best Answer</div>
+    </div>
+
+    <div class="inst-rules">
+      <h3>Instructions</h3>
+      <ul>
+        <li>This test contains 50 multiple choice questions drawn from the PHY103 question pool and shuffled for each attempt.</li>
+        <li>Select one answer per question. You may change your answer before submitting.</li>
+        <li>The lower navigation panel is fixed and shows all 50 questions. Answered questions are highlighted. Use it to jump between questions freely.</li>
+        <li>The timer counts down from 40 minutes. The test will auto-submit when time runs out.</li>
+        <li>Do not attempt to close or navigate away from this page — the test will auto-submit immediately if you do.</li>
+        <li>Your score will NOT be shown to you directly — results are reviewed by the tutor. You will see the scoreboard after submission.</li>
+        <li>Answer every question to the best of your ability. There is no negative marking.</li>
+      </ul>
+    </div>
+
+    <div class="inst-motivation">
+      <p>Every examination is a conversation between you and the knowledge you have built. It is not a judgment of your worth — it is a snapshot of where you are right now, and every snapshot can be improved.</p>
+      <p>The students who perform best are not always the ones who know the most. They are the ones who stay calm, read carefully, and trust the work they have put in. You have prepared. Trust that preparation now. Take a breath, stay focused, and let your mind do what it has been trained to do.</p>
+      <p>You are ready. Now go show it.</p>
+    </div>
+
+    <button class="start-btn" onclick="startQuiz()">Begin Test — Timer Starts Now</button>
+  </div>
+</div>
+
+<!-- ── QUIZ ───────────────────────────────── -->
+<div id="page-quiz" class="page">
+  <div class="quiz-topbar">
+    <div class="quiz-name"><strong id="display-name">Student</strong></div>
+    <div class="quiz-progress-text">Q <strong id="q-current">1</strong> / 50</div>
+    <div class="quiz-timer" id="timer-display">40:00</div>
+  </div>
+  <div class="quiz-progress-bar">
+    <div class="quiz-progress-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+
+  <div class="quiz-scroll" id="quiz-scroll">
+    <div class="q-number-label" id="q-label">Question 1 of 50</div>
+    <div class="q-text-display" id="q-text"></div>
+    <div class="options-list" id="options-list"></div>
+    <div class="quiz-nav">
+      <button class="nav-btn nav-prev" id="btn-prev" onclick="navigateQ(-1)" disabled>Previous</button>
+      <button class="nav-btn nav-next" id="btn-next" onclick="navigateQ(1)">Next</button>
+    </div>
+  </div>
+
+  <div class="quiz-bottom">
+    <div class="bottom-label">Question Navigator</div>
+    <div class="q-dots" id="q-dots"></div>
+  </div>
+</div>
+
+<!-- ── SUBMITTING ─────────────────────────── -->
+<div id="page-submitting" class="page">
+  <div class="submit-anim"></div>
+  <div class="submit-msg" id="submit-msg">Medicathron is receiving your answers...</div>
+  <div class="submit-sub">Please wait. Do not close this page.</div>
+</div>
+
+<!-- ── DONE ──────────────────────────────── -->
+<div id="page-done" class="page">
+  <div class="done-icon">&#10003;</div>
+  <h2 class="done-title">Test Submitted</h2>
+  <p class="done-sub">Medicathron has received your answers. Results will be reviewed and communicated to you by the tutor.</p>
+
+  <div class="done-motivation">
+    <p>Whatever the outcome, you showed up. In a world full of distractions and excuses, the fact that you sat down and attempted this test already puts you ahead of many. Growth is not measured by a single score — it is measured by consistency, honesty, and the willingness to keep improving.</p>
+    <p>Review the areas that challenged you. Come back stronger. The best students are not born — they are built, one attempt at a time. This was one of those building blocks.</p>
+  </div>
+
+  <button class="done-btn" onclick="goToScoreboard()">View Scoreboard</button>
+</div>
+
+<!-- ── SCOREBOARD ─────────────────────────── -->
+<div id="page-scoreboard" class="page">
+  <div class="sb-header">
+    <div class="sb-header-row">
+      <div class="sb-title">Toppers Tutorial &nbsp;<em>PHY103</em> — Scoreboard</div>
+      <button class="sb-back" onclick="goTo('home')">Home</button>
+    </div>
+    <div class="sb-sub">Top performers — scores visible only after completing the test</div>
+  </div>
+  <div class="sb-body">
+    <div class="sb-count" id="sb-count"></div>
+    <div class="sb-table-wrap" id="sb-table-wrap"></div>
+  </div>
+</div>
+
+<!-- ── CONFIRM SUBMIT MODAL ───────────────── -->
+<div class="confirm-overlay" id="confirm-modal">
+  <div class="confirm-box">
+    <h3>Submit Test?</h3>
+    <p id="confirm-msg">You have answered <strong id="confirm-answered">0</strong> of 50 questions. Are you sure you want to submit now?</p>
+    <div class="confirm-actions">
+      <button class="btn-confirm-cancel" onclick="closeConfirm()">Continue Test</button>
+      <button class="btn-confirm-ok" onclick="doSubmit()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// QUESTION BANK (53 questions, paraphrased & tricky options)
+// ═══════════════════════════════════════════════
+const QUESTION_BANK = [
+  {
+    q: "According to the Zeroth Law of Thermodynamics, if object A is separately in thermal equilibrium with object C, and object B is also separately in thermal equilibrium with the same object C, which conclusion is necessarily correct?",
+    opts: ["A is at a higher temperature than B", "B will lose heat to A when placed in contact", "A and B are in thermal equilibrium with each other", "A and B cannot exchange energy under any condition"],
+    ans: 2
+  },
+  {
+    q: "The precise temperature assigned to the triple point of water on the Kelvin scale is:",
+    opts: ["273.15 K", "273.16 K", "373.15 K", "0.01 K"],
+    ans: 1
+  },
+  {
+    q: "The triple point of water differs from the ice point primarily because of which two factors?",
+    opts: ["Different thermometer type and measurement location", "A pressure difference and the removal of dissolved air from the distilled water used", "The use of a different calibration gas and a longer equilibration time", "Different ambient humidity and container material"],
+    ans: 1
+  },
+  {
+    q: "A temperature reading of 50 is obtained on scale A, where the ice and steam points are defined as 20 and 110 respectively. On scale B, where ice = 0 and steam = 100, this temperature corresponds to:",
+    opts: ["33.3", "70", "80", "66.7"],
+    ans: 0
+  },
+  {
+    q: "The thermometric quantity used in a thermocouple thermometer is:",
+    opts: ["The expansion of a liquid column", "The electrical resistance of a platinum wire", "The electromotive force (EMF) generated at the junction", "The pressure of a gas at constant volume"],
+    ans: 2
+  },
+  {
+    q: "At the condition known as absolute zero, the pressure of an ideal gas approaches which value?",
+    opts: ["Its maximum possible value", "Standard atmospheric pressure (1 atm)", "Zero", "A small but measurable negative value"],
+    ans: 2
+  },
+  {
+    q: "In thermodynamics, heat is most precisely described as:",
+    opts: ["The total kinetic energy stored within the molecules of a body", "Energy transferred across a system boundary solely due to a temperature difference", "A quantity that is possessed and stored within a body", "The work done by intermolecular forces within a substance"],
+    ans: 1
+  },
+  {
+    q: "What is the Fahrenheit equivalent of a temperature of −40°C?",
+    opts: ["−40°F", "−72°F", "−8°F", "40°F"],
+    ans: 0
+  },
+  {
+    q: "A temperature interval of 90°F represents how many degrees on the Celsius scale?",
+    opts: ["50°C", "90°C", "162°C", "45°C"],
+    ans: 0
+  },
+  {
+    q: "Two liquid-in-glass thermometers made of different liquids are calibrated at the same ice and steam points. Why do they only agree perfectly at those two fixed points?",
+    opts: ["They use gases with different molecular masses", "The two liquids have different thermal expansion characteristics at intermediate temperatures", "One thermometer is more massive than the other", "The glass of one thermometer is thicker"],
+    ans: 1
+  },
+  {
+    q: "The standard steam point (boiling point of water at 760 mmHg) corresponds to which Fahrenheit temperature?",
+    opts: ["100°F", "180°F", "212°F", "232°F"],
+    ans: 2
+  },
+  {
+    q: "The mathematical statement that best captures the First Law of Thermodynamics for a closed system is:",
+    opts: ["The total energy of an isolated system is always increasing", "ΔE_int = Q − W", "Heat and work produce identical effects on a system", "Entropy of the universe never decreases"],
+    ans: 1
+  },
+  {
+    q: "When a gas expands and pushes a piston outward, performing work on the surroundings, the work W in the First Law equation is conventionally taken as:",
+    opts: ["Negative, because energy leaves the gas", "Positive, because the gas expands", "Zero, because the internal energy compensates", "Dependent only on the temperature of the gas"],
+    ans: 1
+  },
+  {
+    q: "The internal energy of a thermodynamic system decreases by 500 J. During this process, 200 J of work is done on the system by an external agent. How much heat was transferred, and in which direction?",
+    opts: ["700 J transferred out of the system", "700 J transferred into the system", "300 J transferred out of the system", "300 J transferred into the system"],
+    ans: 0
+  },
+  {
+    q: "Which of the following is correctly included in the internal energy of a thermodynamic system?",
+    opts: ["Kinetic energy due to the bulk translational motion of the entire system", "Translational, vibrational, and rotational energy of its constituent molecules", "Gravitational potential energy of the centre of mass", "Only the potential energy stored between molecules"],
+    ans: 1
+  },
+  {
+    q: "A 0.05 kg metal ingot heated to 200°C is dropped into 0.400 kg of water initially at 20°C. The final equilibrium temperature is 22.4°C. Given c_water = 4186 J/(kg·°C), what is the specific heat capacity of the metal?",
+    opts: ["452.5 J/(kg·°C)", "560 J/(kg·°C)", "387 J/(kg·°C)", "900 J/(kg·°C)"],
+    ans: 0
+  },
+  {
+    q: "The minimum energy required to completely melt 0.5 kg of ice already at 0°C is (L_fusion = 3.33 × 10⁵ J/kg):",
+    opts: ["1.665 × 10⁵ J", "3.33 × 10⁵ J", "6.66 × 10⁵ J", "8.33 × 10⁴ J"],
+    ans: 0
+  },
+  {
+    q: "What mass of steam initially at 130°C must be condensed to raise the temperature of 200.0 g of water and 100.0 g of glass from 20°C to 50°C? (c_steam = 2.01×10³ J/(kg·K), L_v = 2.26×10⁶ J/kg, c_water = 4.19×10³ J/(kg·K), c_glass = 8.37×10² J/(kg·K))",
+    opts: ["5.5 g", "10.9 g", "15.0 g", "20.0 g"],
+    ans: 1
+  },
+  {
+    q: "In an X-ray tube, 10¹⁸ electrons arrive per second at a metal target (mass = 0.2 kg, c = 500 J/(kg·K)), each moving at 2×10⁶ m/s. If 98% of kinetic energy converts to heat, how long before the target temperature rises by 50°C? (m_e = 9.0×10⁻³¹ kg)",
+    opts: ["1390 s", "2780 s", "5560 s", "694 s"],
+    ans: 1
+  },
+  {
+    q: "Water flows at 0.150 kg/min through a heated tube (heater power 25.2 W). Inlet and outlet temperatures are 15.2°C and 17.4°C respectively. When flow rate is increased to 0.2318 kg/min and power to 37.8 W with the same inlet/outlet temperatures, what is the specific heat capacity of water?",
+    opts: ["3800 J/(kg·K)", "4000 J/(kg·K)", "4200 J/(kg·K)", "4500 J/(kg·K)"],
+    ans: 2
+  },
+  {
+    q: "For two bodies exchanging heat in an isolated calorimeter, energy conservation requires that the heat gained by the cold body (Q_cold) equals:",
+    opts: ["Q_cold = Q_hot", "Q_cold = −Q_hot", "Q_cold = Q_hot / 2", "Q_cold = 2 × Q_hot"],
+    ans: 1
+  },
+  {
+    q: "The heat capacity C of a substance is defined as the energy needed to raise the temperature of that sample by 1°C. The corresponding specific heat c relates C to sample mass m by:",
+    opts: ["c = C × m", "c = C / m", "c = m / C", "c = C + m"],
+    ans: 1
+  },
+  {
+    q: "1 calorie is equivalent to how many joules?",
+    opts: ["1.000 J", "4.186 J", "0.239 J", "1000 J"],
+    ans: 1
+  },
+  {
+    q: "A system absorbs 500 J of heat and simultaneously performs 200 J of work on its surroundings. What is the change in the system's internal energy?",
+    opts: ["700 J", "300 J", "−300 J", "200 J"],
+    ans: 1
+  },
+  {
+    q: "In the process W = ∫P dV, if a gas is compressed (volume decreases), the sign of W for the gas is:",
+    opts: ["Positive — work done by the gas", "Negative — work is done on the gas", "Zero — volume change is irrelevant to work", "Positive only if pressure is constant"],
+    ans: 1
+  },
+  {
+    q: "On a pressure-volume (PV) diagram, the physical quantity represented by the area under a process curve is:",
+    opts: ["The change in internal energy", "The temperature change", "The work done during that process", "The heat exchanged with the surroundings"],
+    ans: 2
+  },
+  {
+    q: "A process in which no energy is exchanged as heat between the system and its surroundings (Q = 0) is called:",
+    opts: ["Isothermal", "Isobaric", "Isochoric", "Adiabatic"],
+    ans: 3
+  },
+  {
+    q: "When applied to an adiabatic process, the First Law of Thermodynamics simplifies to:",
+    opts: ["ΔE_int = Q", "ΔE_int = −W", "ΔE_int = W", "ΔE_int = Q + W"],
+    ans: 1
+  },
+  {
+    q: "An isothermal process is characterised by which of the following conditions?",
+    opts: ["No heat exchange with surroundings", "Constant temperature throughout the process", "Constant pressure throughout", "Constant volume throughout"],
+    ans: 1
+  },
+  {
+    q: "For an ideal gas undergoing an isothermal process, the change in internal energy ΔE_int equals:",
+    opts: ["Q", "W", "nRΔT", "Zero, since temperature is unchanged"],
+    ans: 3
+  },
+  {
+    q: "In an isovolumetric (constant-volume) process, the work done by the gas is zero because there is no change in volume. The First Law then reduces to:",
+    opts: ["ΔE_int = 0", "ΔE_int = Q", "Q = 0", "W = Q"],
+    ans: 1
+  },
+  {
+    q: "Which of the following describes a cyclic thermodynamic process as represented on a PV diagram?",
+    opts: ["An open curve", "A straight horizontal line", "A closed loop returning to the initial state", "A hyperbola"],
+    ans: 2
+  },
+  {
+    q: "For a complete thermodynamic cycle, the net change in internal energy ΔE_int of the working substance is:",
+    opts: ["Equal to Q", "Equal to W", "Equal to Q − W, which is non-zero", "Equal to zero"],
+    ans: 3
+  },
+  {
+    q: "For a cyclic process, since ΔE_int = 0, the First Law implies that the net heat exchanged Q equals:",
+    opts: ["W (the net work done)", "Zero always", "ΔE_int", "−W"],
+    ans: 0
+  },
+  {
+    q: "The amount of work done as a gas changes state from an initial to a final equilibrium state depends on which of the following?",
+    opts: ["Only the initial and final state variables (P, V, T)", "The specific path taken between the two states", "Only the temperature of the gas", "Only the pressure applied"],
+    ans: 1
+  },
+  {
+    q: "On a PV diagram, if process AB is isovolumetric (vertical) and process BC is isobaric (horizontal), the total work done in going from A to C via path A→B→C equals:",
+    opts: ["W = P_f(V_f − V_i), since no work is done in the isovolumetric step", "W = P_i(V_f − V_i), since pressure stays at initial value", "W = nRT ln(V_f/V_i)", "W = 0, because one step is isovolumetric"],
+    ans: 0
+  },
+  {
+    q: "Two moles of a monoatomic ideal gas absorb 500 J of heat in an isovolumetric process, starting from 300 K. Using C_v = 3R/2, what is the new temperature of the gas?",
+    opts: ["320.1 K", "340.1 K", "360.2 K", "380.0 K"],
+    ans: 1
+  },
+  {
+    q: "When an ideal gas expands adiabatically (Q = 0), what happens to its temperature?",
+    opts: ["Temperature rises because the gas does work", "Temperature falls because internal energy is consumed doing work", "Temperature stays constant because no heat enters", "Volume decrease raises the temperature"],
+    ans: 1
+  },
+  {
+    q: "During an adiabatic compression of an ideal gas, which of the following statements is correct?",
+    opts: ["Both temperature and internal energy decrease", "Internal energy decreases while temperature increases", "Both temperature and internal energy increase", "No work is done so neither quantity changes"],
+    ans: 2
+  },
+  {
+    q: "For a reversible adiabatic process involving an ideal gas, the relationship between pressure and volume is described by which expression?",
+    opts: ["PV = constant (Boyle's Law form)", "PV^γ = constant, where γ = C_p/C_v", "PV² = constant", "P/V = constant"],
+    ans: 1
+  },
+  {
+    q: "In an adiabatic process, the relationship between temperature T and volume V for an ideal gas is:",
+    opts: ["T × V^(γ−1) = constant", "T × V = constant", "T / V = constant", "T × V^γ = constant"],
+    ans: 0
+  },
+  {
+    q: "The expression for work done W in a reversible adiabatic process where PV^γ = c is:",
+    opts: ["W = nRT ln(V_f/V_i)", "W = P(V_f − V_i)", "W = [P_i V_i^γ / (1−γ)] × (V_f^(1−γ) − V_i^(1−γ))", "W = 0"],
+    ans: 2
+  },
+  {
+    q: "In an adiabatic process, P₁ = 2×10⁵ N/m², V₁ = 0.05 m³, and γ = 2. When the volume expands to V₂ = 0.1 m³, the new pressure P₂ is:",
+    opts: ["1×10⁵ Pa", "5×10⁴ Pa", "2×10⁵ Pa", "4×10⁴ Pa"],
+    ans: 1
+  },
+  {
+    q: "In an isobaric compression, P₂ = 5×10⁴ Pa, initial volume V₂ = 0.1 m³, final volume V₃ = 0.05 m³. The work done by the gas in this process W₂₃ is:",
+    opts: ["2500 J", "−2500 J", "5000 J", "0 J"],
+    ans: 1
+  },
+  {
+    q: "A gas releases 4 kJ of heat while being compressed from 0.08 m³ to 0.05 m³ under a constant external pressure of 200 kPa. The change in internal energy of the gas is:",
+    opts: ["Decreases by 4 kJ", "Increases by 2 kJ", "Decreases by 2 kJ", "Stays unchanged"],
+    ans: 1
+  },
+  {
+    q: "The Equipartition of Energy Theorem, applied to translational motion, states that each independent translational degree of freedom contributes how much energy to the system?",
+    opts: ["k_B T", "(1/2) k_B T", "3 k_B T / 2", "R T"],
+    ans: 1
+  },
+  {
+    q: "How many independent translational degrees of freedom does a monoatomic ideal gas molecule possess?",
+    opts: ["1", "2", "3", "6"],
+    ans: 2
+  },
+  {
+    q: "The total translational kinetic energy of N molecules of an ideal gas can be written as (3/2)NkT. In terms of moles n and the gas constant R, this is equivalently:",
+    opts: ["NkT", "(3/2)NkT (these are identical expressions)", "(1/2)NkT", "(3/2)nRT"],
+    ans: 3
+  },
+  {
+    q: "For a monoatomic ideal gas, the molar specific heat at constant pressure C_p is:",
+    opts: ["3R/2", "5R/2", "7R/2", "R"],
+    ans: 1
+  },
+  {
+    q: "The relationship C_p − C_v = R is a result derived from the ideal gas equation and the First Law. This relationship holds for:",
+    opts: ["Monoatomic ideal gases only", "Diatomic ideal gases only", "Any ideal gas regardless of atomicity", "Noble gases only, since they are truly monatomic"],
+    ans: 2
+  },
+  {
+    q: "For a monoatomic ideal gas (C_v = 3R/2, C_p = 5R/2), the adiabatic index γ = C_p/C_v is:",
+    opts: ["1.20", "1.40", "1.67", "2.00"],
+    ans: 2
+  },
+  {
+    q: "The root-mean-square (rms) speed of O₂ molecules at 300 K is closest to which value? (M = 32×10⁻³ kg/mol, R = 8.31 J/(mol·K))",
+    opts: ["288 m/s", "483 m/s", "768 m/s", "965 m/s"],
+    ans: 1
+  }
+];
+
+// ═══════════════════════════════════════════════
+// DEPARTMENTS BY FACULTY
+// ═══════════════════════════════════════════════
+const DEPTS = {
+  "Faculty of Science": ["Biochemistry","Botany","Chemistry","Computer Science","Geology","Mathematics","Microbiology","Physics","Statistics","Zoology","Cell Biology & Genetics"],
+  "Faculty of Technology": ["Agricultural & Environmental Engineering","Chemical Engineering","Civil Engineering","Electrical & Electronics Engineering","Food Technology","Industrial & Production Engineering","Mechanical Engineering","Petroleum Engineering","Systems Engineering","Wood Products Engineering"],
+  "Faculty of Agriculture & Forestry": ["Agricultural Economics","Agricultural Extension & Rural Development","Agronomy","Animal Science","Crop Protection & Environmental Biology","Forest Resources Management","Soil Science & Land Management","Wildlife & Ecotourism Management"],
+  "Faculty of Pharmacy": ["Clinical Pharmacy & Pharmacy Administration","Pharmaceutical Chemistry","Pharmaceutical Microbiology","Pharmaceutics & Industrial Pharmacy","Pharmacognosy","Pharmacology & Toxicology"],
+  "College of Medicine": ["Anatomy","Biochemistry (Medical)","Community Medicine","Medicine & Surgery (MBBS)","Medical Microbiology & Parasitology","Nursing Science","Physiological Sciences","Physiology","Radiography"],
+  "Faculty of Veterinary Medicine": ["Veterinary Anatomy","Veterinary Medicine","Veterinary Pathology","Veterinary Physiology & Biochemistry","Veterinary Public Health & Preventive Medicine","Veterinary Surgery & Reproduction","Theriogenology"],
+  "Faculty of Public Health": ["Environmental Health","Epidemiology & Medical Statistics","Health Promotion & Education","Hospital Management","Human Nutrition"],
+  "Institute of Child Health": ["Child Health (Postgraduate)"]
+};
+
+function populateDepts() {
+  const fac = document.getElementById("inp-faculty").value;
+  const deptSel = document.getElementById("inp-dept");
+  deptSel.innerHTML = '<option value="">-- Select Department --</option>';
+  if (DEPTS[fac]) {
+    DEPTS[fac].forEach(d => {
+      const o = document.createElement("option");
+      o.value = d; o.textContent = d;
+      deptSel.appendChild(o);
+    });
+  }
+}
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let student = {};
+let quizQuestions = [];
+let answers = {};
+let currentQ = 0;
+let timerInterval = null;
+let timeLeft = 40 * 60; // seconds
+let quizActive = false;
+let submitted = false;
+
+// ═══════════════════════════════════════════════
+// PAGE NAVIGATION
+// ═══════════════════════════════════════════════
+function goTo(id) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page-" + id).classList.add("active");
+  window.scrollTo(0, 0);
+}
+
+function goToScoreboard() {
+  renderScoreboard();
+  goTo("scoreboard");
+}
+
+// ═══════════════════════════════════════════════
+// BIO-DATA
+// ═══════════════════════════════════════════════
+function submitBio() {
+  let valid = true;
+
+  function check(id, errId, cond) {
+    const el = document.getElementById(id);
+    const err = document.getElementById(errId);
+    if (!cond) {
+      el.classList.add("error");
+      err.style.display = "block";
+      valid = false;
+    } else {
+      el.classList.remove("error");
+      err.style.display = "none";
+    }
+  }
+
+  const surname = document.getElementById("inp-surname").value.trim();
+  const firstname = document.getElementById("inp-firstname").value.trim();
+  const matric = document.getElementById("inp-matric").value.trim();
+  const phone = document.getElementById("inp-phone").value.trim();
+  const faculty = document.getElementById("inp-faculty").value;
+  const dept = document.getElementById("inp-dept").value;
+  const genderEl = document.querySelector("input[name='gender']:checked");
+  const aimed = document.getElementById("inp-aimed").value;
+
+  check("inp-surname", "err-surname", surname.length > 0);
+  check("inp-firstname", "err-firstname", firstname.length > 0);
+  check("inp-matric", "err-matric", /^\d{6}$/.test(matric));
+  check("inp-phone", "err-phone", phone.length >= 8);
+  check("inp-faculty", "err-faculty", faculty !== "");
+  check("inp-dept", "err-dept", dept !== "");
+
+  const errGender = document.getElementById("err-gender");
+  if (!genderEl) { errGender.style.display = "block"; valid = false; }
+  else errGender.style.display = "none";
+
+  if (!valid) return;
+
+  student = {
+    surname: surname.toUpperCase(),
+    firstname: firstname,
+    fullname: surname.toUpperCase() + " " + firstname,
+    matric: matric,
+    phone: phone,
+    gender: genderEl.value,
+    faculty: faculty,
+    dept: dept,
+    aimed: parseInt(aimed),
+    timestamp: new Date().toISOString()
+  };
+
+  goTo("instructions");
+}
+
+// ═══════════════════════════════════════════════
+// QUIZ START
+// ═══════════════════════════════════════════════
+function startQuiz() {
+  // Shuffle and pick 50 from 53
+  const shuffled = [...QUESTION_BANK].sort(() => Math.random() - 0.5);
+  quizQuestions = shuffled.slice(0, 50);
+  answers = {};
+  currentQ = 0;
+  timeLeft = 40 * 60;
+  submitted = false;
+  quizActive = true;
+
+  document.getElementById("display-name").textContent = student.firstname || "Student";
+
+  goTo("quiz");
+  renderQuestion();
+  renderDots();
+  startTimer();
+
+  // Anti-AI: auto-submit on page hide / visibility change
+  document.addEventListener("visibilitychange", handleVisibility);
+  window.addEventListener("beforeunload", handleBeforeUnload);
+}
+
+function handleVisibility() {
+  if (document.hidden && quizActive && !submitted) {
+    forceSubmit();
+  }
+}
+
+function handleBeforeUnload(e) {
+  if (quizActive && !submitted) {
+    forceSubmit();
+    e.preventDefault();
+    e.returnValue = "";
+  }
+}
+
+// ═══════════════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════════════
+function startTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      forceSubmit();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  if (!quizActive && submitted) return;
+  const m = Math.floor(timeLeft / 60).toString().padStart(2, "0");
+  const s = (timeLeft % 60).toString().padStart(2, "0");
+  const el = document.getElementById("timer-display");
+  if (!el) return;
+  el.textContent = m + ":" + s;
+  el.className = "quiz-timer";
+  if (timeLeft <= 300) el.classList.add("warning");
+  if (timeLeft <= 60) el.classList.add("critical");
+}
+
+// ═══════════════════════════════════════════════
+// RENDER QUESTION
+// ═══════════════════════════════════════════════
+function renderQuestion() {
+  if (!quizQuestions || quizQuestions.length === 0) return;
+  const q = quizQuestions[currentQ];
+  if (!q) return;
+  document.getElementById("q-label").textContent = "Question " + (currentQ + 1) + " of 50";
+  document.getElementById("q-current").textContent = currentQ + 1;
+  document.getElementById("q-text").innerHTML = q.q;
+
+  // Progress bar
+  const answered = Object.keys(answers).length;
+  document.getElementById("progress-fill").style.width = (answered / 50 * 100) + "%";
+
+  // Options — shuffle option order but map answer correctly
+  const optList = document.getElementById("options-list");
+  optList.innerHTML = "";
+
+  // Create indexed options
+  const optEntries = q.opts.map((text, idx) => ({ text, origIdx: idx }));
+  // We don't re-shuffle options — keep them stable per question
+  optEntries.forEach((entry, i) => {
+    const btn = document.createElement("button");
+    btn.className = "opt-btn" + (answers[currentQ] === entry.origIdx ? " selected" : "");
+    btn.innerHTML = `<div class="opt-letter">${String.fromCharCode(65 + i)}</div><div>${entry.text}</div>`;
+    btn.onclick = () => selectAnswer(entry.origIdx);
+    optList.appendChild(btn);
+  });
+
+  // Nav buttons
+  document.getElementById("btn-prev").disabled = currentQ === 0;
+  const nextBtn = document.getElementById("btn-next");
+  if (currentQ === 49) {
+    nextBtn.textContent = "Submit Test";
+    nextBtn.className = "nav-btn nav-submit";
+    nextBtn.onclick = confirmSubmit;
+  } else {
+    nextBtn.textContent = "Next";
+    nextBtn.className = "nav-btn nav-next";
+    nextBtn.onclick = () => navigateQ(1);
+  }
+
+  // Scroll to top of question area
+  const scrollEl = document.getElementById("quiz-scroll");
+  if (scrollEl) scrollEl.scrollTop = 0;
+
+  renderDots();
+}
+
+function selectAnswer(optIdx) {
+  answers[currentQ] = optIdx;
+  renderQuestion();
+}
+
+function navigateQ(dir) {
+  const newIdx = currentQ + dir;
+  if (newIdx < 0 || newIdx > 49) return;
+  currentQ = newIdx;
+  renderQuestion();
+}
+
+// ═══════════════════════════════════════════════
+// DOTS
+// ═══════════════════════════════════════════════
+function renderDots() {
+  const container = document.getElementById("q-dots");
+  container.innerHTML = "";
+  for (let i = 0; i < 50; i++) {
+    const d = document.createElement("div");
+    d.className = "q-dot";
+    if (answers[i] !== undefined) d.classList.add("answered");
+    if (i === currentQ) d.classList.add("current");
+    d.textContent = i + 1;
+    d.onclick = () => { currentQ = i; renderQuestion(); };
+    container.appendChild(d);
+  }
+}
+
+// ═══════════════════════════════════════════════
+// SUBMIT
+// ═══════════════════════════════════════════════
+function confirmSubmit() {
+  const answered = Object.keys(answers).length;
+  document.getElementById("confirm-answered").textContent = answered;
+  const unanswered = 50 - answered;
+  document.getElementById("confirm-msg").innerHTML =
+    `You have answered <strong>${answered}</strong> of 50 questions` +
+    (unanswered > 0 ? ` (<strong>${unanswered} unanswered</strong>).` : ".") +
+    " Are you sure you want to submit now?";
+  document.getElementById("confirm-modal").classList.add("show");
+}
+
+function closeConfirm() {
+  document.getElementById("confirm-modal").classList.remove("show");
+}
+
+function forceSubmit() {
+  closeConfirm();
+  doSubmit();
+}
+
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  quizActive = false;
+  clearInterval(timerInterval);
+  timerInterval = null;
+  closeConfirm();
+  document.removeEventListener("visibilitychange", handleVisibility);
+  window.removeEventListener("beforeunload", handleBeforeUnload);
+
+  goTo("submitting");
+
+  // Calculate score
+  let correct = 0;
+  for (let i = 0; i < 50; i++) {
+    if (answers[i] === quizQuestions[i].ans) correct++;
+  }
+
+  const result = {
+    ...student,
+    correct: correct,
+    total: 50,
+    pct: Math.round(correct / 50 * 100),
+    timeUsed: 40 * 60 - timeLeft,
+    submittedAt: new Date().toISOString()
+  };
+
+  // Save to localStorage (for scoreboard)
+  const existing = JSON.parse(localStorage.getItem("phy103_scores") || "[]");
+  const filtered = existing.filter(r => r.matric !== result.matric);
+  filtered.push(result);
+  localStorage.setItem("phy103_scores", JSON.stringify(filtered));
+
+  // Submit to Google Forms silently
+  // entry.121961805  = Surname
+  // entry.128307893  = First Name
+  // entry.788622121  = Matric Number
+  // entry.327419388  = Phone Number
+  // entry.209094885  = Gender
+  // entry.467274675  = Faculty
+  // entry.1795860913 = Department
+  // entry.780026574  = Score (x/50)
+  // entry.1304276941 = Percentage
+
+  const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSc9kOKgbturqzzZ9tt2plxpw_bjdZL2bJHeRXtVPTthPjysDg/formResponse";
+
+  const formData = new FormData();
+  formData.append("entry.121961805",  result.surname);
+  formData.append("entry.128307893",  result.firstname);
+  formData.append("entry.788622121",  result.matric);
+  formData.append("entry.327419388",  result.phone);
+  formData.append("entry.209094885",  result.gender);
+  formData.append("entry.467274675",  result.faculty);
+  formData.append("entry.1795860913", result.dept);
+  formData.append("entry.780026574",  result.correct + "/50");
+  formData.append("entry.1304276941", result.pct + "%");
+
+  fetch(FORM_ACTION, {
+    method: "POST",
+    mode: "no-cors",
+    body: formData
+  }).catch(() => {});
+
+  setTimeout(() => {
+    const msgEl = document.getElementById("submit-msg");
+    if (msgEl) msgEl.textContent = "Medicathron has received your answers.";
+    setTimeout(() => goTo("done"), 2000);
+  }, 3000);
+}
+
+// ═══════════════════════════════════════════════
+// SCOREBOARD
+// Reads from Google Sheets published CSV so all
+// devices see the same live data.
+// HOW TO SET UP:
+//   1. Open your linked Google Sheet
+//   2. File → Share → Publish to web
+//   3. Choose the responses sheet, CSV format
+//   4. Copy the URL and paste as SHEET_CSV_URL below
+// ═══════════════════════════════════════════════
+
+// !! REPLACE THIS URL with your published Sheet CSV link !!
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTaf7bZLUUCeK4xDQeE6atjUyNps2pabPjGLw3GXE838m5vneC0vXM82AfrozJGvYYjR7msWa-xCXkq/pub?output=csv";
+
+function renderScoreboard() {
+  const wrap = document.getElementById("sb-table-wrap");
+  const countEl = document.getElementById("sb-count");
+  wrap.innerHTML = `<div class="empty-board"><h3>Loading results...</h3><p>Fetching latest scoreboard data.</p></div>`;
+  countEl.textContent = "";
+
+  if (SHEET_CSV_URL === "YOUR_PUBLISHED_SHEET_CSV_URL_HERE") {
+    // Fallback to localStorage while sheet URL not yet configured
+    renderScoreboardLocal();
+    return;
+  }
+
+  fetch(SHEET_CSV_URL)
+    .then(r => r.text())
+    .then(csv => {
+      const rows = csv.trim().split("\n").slice(1); // skip header row
+      if (rows.length === 0 || (rows.length === 1 && rows[0].trim() === "")) {
+        wrap.innerHTML = `<div class="empty-board"><h3>No results yet</h3><p>Be the first to complete the test.</p></div>`;
+        return;
+      }
+      const parsed = rows.map(row => {
+        const cols = row.split(",").map(c => c.replace(/^"|"$/g, "").trim());
+        return {
+          // Google Form response sheet columns:
+          // 0=Timestamp, 1=Surname, 2=FirstName, 3=Matric, 4=Phone,
+          // 5=Gender, 6=Faculty, 7=Department, 8=Score, 9=Percentage
+          timestamp: cols[0] || "",
+          surname:   cols[1] || "",
+          firstname: cols[2] || "",
+          matric:    cols[3] || "",
+          dept:      cols[7] || "",
+          scoreRaw:  cols[8] || "0/50",
+          pctRaw:    cols[9] || "0%",
+        };
+      }).map(r => {
+        const correct = parseInt(r.scoreRaw) || 0;
+        const pct     = parseInt(r.pctRaw)   || 0;
+        return { ...r, correct, pct };
+      });
+
+      const sorted = [...parsed].sort((a, b) => b.correct - a.correct || b.pct - a.pct);
+      buildTable(sorted, wrap, countEl);
+    })
+    .catch(() => {
+      // Network error — fall back to localStorage
+      renderScoreboardLocal();
+    });
+}
+
+function renderScoreboardLocal() {
+  const wrap = document.getElementById("sb-table-wrap");
+  const countEl = document.getElementById("sb-count");
+  const scores = JSON.parse(localStorage.getItem("phy103_scores") || "[]");
+  if (scores.length === 0) {
+    wrap.innerHTML = `<div class="empty-board"><h3>No results yet</h3><p>Complete the test to appear on the scoreboard.</p></div>`;
+    return;
+  }
+  const sorted = [...scores].sort((a, b) => b.correct - a.correct || a.timeUsed - b.timeUsed);
+  const mapped = sorted.map(r => ({
+    surname: r.surname, firstname: r.firstname,
+    matric: r.matric, dept: r.dept,
+    correct: r.correct, pct: r.pct
+  }));
+  buildTable(mapped, wrap, countEl);
+}
+
+function buildTable(sorted, wrap, countEl) {
+  const rankClass = (i) => i === 0 ? "gold" : i === 1 ? "silver" : i === 2 ? "bronze" : "";
+  countEl.textContent = sorted.length + " participant" + (sorted.length !== 1 ? "s" : "") + " on the board";
+  const rows = sorted.map((r, i) => `
+    <tr>
+      <td><div class="rank-badge ${rankClass(i)}">${i + 1}</div></td>
+      <td><strong>${r.surname} ${r.firstname}</strong></td>
+      <td><span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem">${r.matric || "—"}</span></td>
+      <td>${r.dept || "—"}</td>
+      <td style="text-align:center;font-family:'JetBrains Mono',monospace;font-weight:600">${r.correct}/50</td>
+      <td>
+        <div class="score-bar-wrap">
+          <div class="score-bar"><div class="score-bar-fill" style="width:${r.pct}%"></div></div>
+          <div class="pct-text">${r.pct}%</div>
+        </div>
+      </td>
+    </tr>`).join("");
+
+  wrap.innerHTML = `
+    <table>
+      <thead>
+        <tr><th>#</th><th>Full Name</th><th>Matric No.</th><th>Department</th><th>Score</th><th>Percentage</th></tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+</script>
+</body>
+</html>
