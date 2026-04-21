@@ -1204,7 +1204,7 @@ tbody td {
 
 <script>
 // ═══════════════════════════════════════════════
-// QUESTION BANK (53 questions, paraphrased & tricky options)
+// QUESTION BANK (90 questions, paraphrased & tricky options)
 // ═══════════════════════════════════════════════
 const QUESTION_BANK = [
   {
@@ -1466,6 +1466,191 @@ const QUESTION_BANK = [
     q: "The root-mean-square (rms) speed of O₂ molecules at 300 K is closest to which value? (M = 32×10⁻³ kg/mol, R = 8.31 J/(mol·K))",
     opts: ["288 m/s", "483 m/s", "768 m/s", "965 m/s"],
     ans: 1
+  },
+  {
+    q: "A physics student argues that two thermometers filled with different liquids will always read identically at ALL temperatures as long as they are calibrated at the same two fixed points. Which of the following best explains why this argument is flawed?",
+    opts: ["The calibration fixed points used are not reproducible", "The thermal conductivity of each liquid varies differently with temperature", "Each liquid expands non-linearly and differently between the fixed points, so intermediate readings disagree", "The thermometer bulbs are made of different glass types"],
+    ans: 2
+  },
+  {
+    q: "On a newly proposed temperature scale X, the melting point of lead (327°C) is assigned 500°X and the boiling point of liquid nitrogen (−196°C) is assigned 0°X. What is the Celsius equivalent of 250°X on this scale?",
+    opts: ["65.5°C", "131°C", "196°C", "327°C"],
+    ans: 0
+  },
+  {
+    q: "Consider the following statements about the constant-volume gas thermometer:\n(i) It is used as a primary standard for temperature measurement\n(ii) Its accuracy improves as the gas pressure inside is increased\n(iii) All gases give the same temperature reading only in the limit of zero pressure\n(iv) It directly measures molecular kinetic energy\nWhich combination is correct?",
+    opts: ["(i) and (ii) only", "(i) and (iii) only", "(ii) and (iv) only", "(i), (iii) and (iv) only"],
+    ans: 1
+  },
+  {
+    q: "A resistance thermometer has resistance 24.0 Ω at 0°C and 28.4 Ω at 100°C. What temperature does it indicate when its resistance is 25.6 Ω?",
+    opts: ["36.4°C", "40.0°C", "36.4°C", "44.4°C"],
+    ans: 0
+  },
+  {
+    q: "The triple point of water is preferred over the ice point as a calibration standard primarily because:",
+    opts: ["The triple point can be achieved at higher pressures", "The ice point depends on dissolved impurities and atmospheric pressure, whereas the triple point is a unique, reproducible state", "The triple point temperature is higher, making measurement easier", "The ice point requires specialised apparatus unavailable in most labs"],
+    ans: 1
+  },
+  {
+    q: "Which of the following correctly ranks the same temperature on the three common scales from lowest numerical value to highest?",
+    opts: ["Celsius < Kelvin < Fahrenheit (at temperatures above 0°C)", "Kelvin < Celsius < Fahrenheit (for temperatures above −40°C)", "Celsius < Fahrenheit < Kelvin (always)", "Fahrenheit < Celsius < Kelvin (always)"],
+    ans: 0
+  },
+  {
+    q: "The temperature of the photosphere of the Sun is approximately 5778 K. Express this in Fahrenheit.",
+    opts: ["9840°F", "9941°F", "10000°F", "5505°F"],
+    ans: 1
+  },
+  {
+    q: "A solid metal ring is uniformly heated. Consider the following statements:\n(i) The outer radius increases\n(ii) The inner radius decreases\n(iii) The thickness of the ring material increases\n(iv) The hole becomes larger\nWhich statements are correct?",
+    opts: ["(i) and (iv) only", "(i), (iii) and (iv) only", "(ii) and (iii) only", "(i), (ii) and (iii) only"],
+    ans: 1
+  },
+  {
+    q: "A steel rail (α = 12×10⁻⁶ /°C) is 25.000 m at −10°C. A second rail of the same material is 25.000 m at 40°C. When both are at −10°C, what is the difference in their lengths?",
+    opts: ["0 m — they are equal", "15 mm", "0.015 m", "Both A and C are correct"],
+    ans: 3
+  },
+  {
+    q: "A brass rod (α = 19×10⁻⁶ /°C, L = 2.00 m) and a steel rod (α = 12×10⁻⁶ /°C, L = 2.00 m) are joined end-to-end at 20°C. By how much does the combined length change when the temperature rises to 120°C?",
+    opts: ["3.8 mm", "2.4 mm", "6.2 mm", "3.1 mm"],
+    ans: 2
+  },
+  {
+    q: "A bimetallic strip consisting of brass (higher α) bonded to steel (lower α) is heated. Which description of the strip's behaviour is correct?",
+    opts: ["The strip bends so that the brass side is on the outside of the curve", "The strip bends so that the steel side is on the outside of the curve", "The strip elongates uniformly without bending", "The strip compresses without bending"],
+    ans: 0
+  },
+  {
+    q: "An aluminium sphere of radius 5.00 cm is heated from 20°C to 120°C. Given α_Al = 2.4×10⁻⁵ /°C, what is the increase in the volume of the sphere?",
+    opts: ["1.51 cm³", "3.77 cm³", "7.54 cm³", "0.75 cm³"],
+    ans: 0
+  },
+  {
+    q: "A Pyrex glass vessel (α = 3.2×10⁻⁶ /°C) is completely filled with 500 cm³ of mercury (γ_Hg = 1.82×10⁻⁴ /°C) at 20°C. How much mercury overflows when the system is heated to 100°C?",
+    opts: ["6.76 cm³", "7.28 cm³", "0.52 cm³", "6.24 cm³"],
+    ans: 0
+  },
+  {
+    q: "Two steel bolts and one brass bolt clamp a joint. The steel bolts each have L = 10 cm (α_s = 12×10⁻⁶/°C) and the brass bolt has L = 10 cm (α_b = 19×10⁻⁶/°C). They are all at 25°C and a gap of 8.0 μm exists between the bolt tips. At what temperature do the bolt tips meet? (Consider only the brass bolt expanding towards the steel.)",
+    opts: ["129°C", "102°C", "78°C", "154°C"],
+    ans: 0
+  },
+  {
+    q: "An ideal gas undergoes the following sequence of processes:\n(i) Isothermal compression from V to V/2\n(ii) Isochoric heating until pressure doubles\n(iii) Isobaric expansion back to volume V\nAfter all three steps, how does the final temperature compare to the initial temperature?",
+    opts: ["Equal to initial temperature", "Twice the initial temperature", "Four times the initial temperature", "Half the initial temperature"],
+    ans: 2
+  },
+  {
+    q: "A sealed rigid container holds 3.0 mol of an ideal gas at 27°C and 2.0 atm. The container is heated until the pressure gauge reads 3.5 atm. What is the new temperature of the gas?",
+    opts: ["315°C", "262.5°C", "252°C", "47.25°C"],
+    ans: 1
+  },
+  {
+    q: "A scuba diver breathes air from a tank of volume 12.0 L pressurised to 200 atm at 20°C. If the diver consumes air at an effective rate corresponding to 0.500 L/min at 1.00 atm and 37°C, approximately how long will the tank last?",
+    opts: ["3840 min", "4096 min", "3726 min", "2400 min"],
+    ans: 2
+  },
+  {
+    q: "Avogadro's Law states that equal volumes of different ideal gases at the same temperature and pressure contain equal numbers of molecules. A consequence of this law is that:",
+    opts: ["All gas molecules have the same mass", "The molar volume of any ideal gas at STP is approximately 22.4 L", "Heavier gases exert greater pressure at the same volume", "Diatomic gases are always denser than monoatomic gases"],
+    ans: 1
+  },
+  {
+    q: "Consider the following statements about real gases versus ideal gases:\n(i) Real gas molecules have finite volume\n(ii) Real gas molecules exert attractive forces on each other\n(iii) Real gases always exert higher pressure than ideal gases at the same T and V\n(iv) At low pressures and high temperatures, real gases approach ideal gas behaviour\nWhich statements are correct?",
+    opts: ["(i) and (iii) only", "(i), (ii) and (iv) only", "(ii) and (iv) only", "(i), (ii), (iii) and (iv)"],
+    ans: 1
+  },
+  {
+    q: "An engineer measures the following for a flow calorimeter:\n— Run 1: flow rate = 0.20 kg/min, power = 30.0 W, ΔT = 3.6°C\n— Run 2: flow rate = 0.30 kg/min, power = 42.0 W, ΔT = 3.6°C\nUsing the two-run method that eliminates heat loss, what is the specific heat of the liquid?",
+    opts: ["3500 J/kg·K", "3600 J/kg·K", "4000 J/kg·K", "4200 J/kg·K"],
+    ans: 0
+  },
+  {
+    q: "A thermodynamics student claims: 'Since internal energy is a state function, the heat added to a system between two states is always the same regardless of path.' What is wrong with this statement?",
+    opts: ["Internal energy is not a state function", "Heat IS path-independent for ideal gases", "Heat Q is NOT a state function — Q depends on path, even though ΔEint does not", "The statement is correct for adiabatic processes only"],
+    ans: 2
+  },
+  {
+    q: "A 2.0 kg iron block (c = 450 J/kg·K) at 300°C is dropped into a thermally insulated container holding 5.0 kg of water at 20°C (c = 4186 J/kg·K). Determine the equilibrium temperature.",
+    opts: ["30.7°C", "35.3°C", "40.1°C", "25.9°C"],
+    ans: 1
+  },
+  {
+    q: "How many grams of ice at −10°C must be added to 200 g of water at 80°C to produce a final mixture entirely at 0°C? (c_ice = 2090 J/kg·K, L_f = 334,000 J/kg, c_water = 4186 J/kg·K)",
+    opts: ["148 g", "185 g", "112 g", "204 g"],
+    ans: 1
+  },
+  {
+    q: "Consider the following processes for a fixed quantity of an ideal gas. In which case is the heat Q absorbed by the gas necessarily ZERO?\n(i) Free adiabatic expansion into a vacuum\n(ii) Reversible adiabatic expansion\n(iii) Isothermal compression\n(iv) Isochoric process with no heat source",
+    opts: ["(i) and (ii) only", "(iii) and (iv) only", "(ii) only", "(i), (ii) and (iv)"],
+    ans: 0
+  },
+  {
+    q: "A gas expands from 2.0 L to 8.0 L against a constant external pressure of 1.5 atm (1 atm = 101.3 J/L). During this process, 500 J of heat flows INTO the gas. What is the change in internal energy?",
+    opts: ["−412 J", "−409 J", "−408.7 J", "+409 J"],
+    ans: 2
+  },
+  {
+    q: "Why is the specific heat capacity at constant pressure (C_p) always greater than that at constant volume (C_v) for an ideal gas?",
+    opts: ["At constant pressure the gas does work on its surroundings as it expands, requiring additional energy beyond what raises temperature alone", "At constant volume, molecules collide more frequently, absorbing more energy", "C_p < C_v for ideal gases — the assumption in the question is wrong", "At constant pressure, intermolecular forces do negative work reducing energy need"],
+    ans: 0
+  },
+  {
+    q: "A gas is taken from state A to state C via two different paths: A→B→C and A→D→C on a PV diagram. Which of the following is the same for BOTH paths?",
+    opts: ["The heat Q absorbed", "The work W done by the gas", "The change in internal energy ΔE_int", "Both Q and W"],
+    ans: 2
+  },
+  {
+    q: "One mole of an ideal monoatomic gas (Cv = 3R/2) is taken through the following cycle starting at T = 300 K, V = 10 L:\n— Step 1: Isothermal expansion to V = 20 L\n— Step 2: Isochoric cooling back to initial pressure\n— Step 3: Isobaric compression back to initial state\nWhat is the net work done by the gas in one complete cycle? (R = 8.31 J/mol·K)",
+    opts: ["574 J", "287 J", "−287 J", "0 J"],
+    ans: 1
+  },
+  {
+    q: "During an adiabatic process, a gas does 800 J of work against a piston. Simultaneously, through a small imperfection, 50 J of heat leaks INTO the gas. Which statement correctly applies the First Law?",
+    opts: ["ΔE_int = −850 J", "ΔE_int = −750 J", "ΔE_int = +750 J", "ΔE_int = +850 J"],
+    ans: 1
+  },
+  {
+    q: "On a PV diagram, an adiabatic curve through a given point is steeper than an isothermal curve through the same point. The correct physical reason for this is:",
+    opts: ["The adiabat has a larger pressure drop because no heat enters", "In an adiabatic process, PV^γ = const and γ > 1, so pressure falls faster than in an isothermal process where PV = const", "The isothermal process is always reversible, making it less steep", "The adiabat is only steeper for monoatomic gases"],
+    ans: 1
+  },
+  {
+    q: "Two moles of a monoatomic ideal gas (Cv = 12.5 J/mol·K) undergo an isobaric expansion at P = 3.0×10⁵ Pa from V₁ = 0.020 m³ to V₂ = 0.040 m³. How much heat Q is absorbed by the gas?",
+    opts: ["6000 J", "9000 J", "15000 J", "3000 J"],
+    ans: 1
+  },
+  {
+    q: "A gas is compressed isothermally at 300 K from 10 L to 2 L. The work done ON the gas is measured as 4014 J. How many moles of gas are present? (R = 8.31, ln5 ≈ 1.609)",
+    opts: ["0.5 mol", "1.0 mol", "1.5 mol", "2.0 mol"],
+    ans: 1
+  },
+  {
+    q: "The rms speed of hydrogen molecules (M = 2×10⁻³ kg/mol) at temperature T is 1934 m/s. At what temperature are they moving at this speed? (R = 8.31 J/mol·K)",
+    opts: ["300 K", "600 K", "900 K", "1200 K"],
+    ans: 0
+  },
+  {
+    q: "According to the kinetic theory derivation, the pressure exerted by N molecules of mass m in a cubic box of side L is P = Nmv²_rms / (3V). Which of the following assumptions is directly responsible for the factor of 3 in the denominator?",
+    opts: ["Elastic collisions with the wall", "Random isotropic motion — velocity is equally distributed among three independent spatial directions", "The molecules are point masses", "The number of collisions per unit time is proportional to speed"],
+    ans: 1
+  },
+  {
+    q: "For a diatomic ideal gas at 500 K, calculate:\n(i) The average translational KE per molecule\n(ii) The total internal energy per mole\n(kB = 1.381×10⁻²³ J/K, R = 8.31 J/mol·K, diatomic Cv = 5R/2)",
+    opts: ["(i) 1.04×10⁻²⁰ J, (ii) 10.4 kJ/mol", "(i) 3.11×10⁻²⁰ J, (ii) 10.4 kJ/mol", "(i) 1.04×10⁻²⁰ J, (ii) 20.8 kJ/mol", "(i) 2.07×10⁻²⁰ J, (ii) 10.4 kJ/mol"],
+    ans: 0
+  },
+  {
+    q: "A student claims that since γ = Cp/Cv, and both Cp and Cv increase with the number of degrees of freedom, the ratio γ should also increase for more complex molecules. Evaluate this claim:",
+    opts: ["The claim is correct — γ increases with molecular complexity", "The claim is wrong — γ decreases as degrees of freedom increase, because Cv grows faster than Cp (since Cp − Cv = R is fixed)", "The claim is correct only for polyatomic molecules", "γ is always equal to 1 for all ideal gases"],
+    ans: 1
+  },
+  {
+    q: "Two moles of oxygen gas (M = 32×10⁻³ kg/mol) are at 27°C. Calculate the total translational kinetic energy of all the molecules. (NA = 6.022×10²³, kB = 1.381×10⁻²³ J/K)",
+    opts: ["3741 J", "7482 J", "1247 J", "2494 J"],
+    ans: 0
   }
 ];
 
@@ -1583,9 +1768,10 @@ function submitBio() {
 // QUIZ START
 // ═══════════════════════════════════════════════
 function startQuiz() {
-  // Shuffle and pick 50 from 53
+  // Shuffle and pick 50 from 90
   const shuffled = [...QUESTION_BANK].sort(() => Math.random() - 0.5);
   quizQuestions = shuffled.slice(0, 50);
+  shuffleQuestionOptions(quizQuestions);
   answers = {};
   currentQ = 0;
   timeLeft = 40 * 60;
@@ -1599,6 +1785,23 @@ function startQuiz() {
   renderDots();
   startTimer();
 
+  // Shuffle options
+  function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function shuffleQuestionOptions(questions) {
+  questions.forEach(q => {
+    const indexed = q.opts.map((text, idx) => ({ text, idx }));
+    shuffleArray(indexed);
+    q.opts = indexed.map(o => o.text);
+    q.ans  = indexed.findIndex(o => o.idx === q.ans);
+  });
+}
   // Anti-AI: auto-submit on page hide / visibility change
   document.addEventListener("visibilitychange", handleVisibility);
   window.addEventListener("beforeunload", handleBeforeUnload);
