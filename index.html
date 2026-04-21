@@ -1691,6 +1691,7 @@ let currentQ = 0;
 let timerInterval = null;
 let timeLeft = 40 * 60; // seconds
 let quizActive = false;
+let visibilityTimer = null;
 let submitted = false;
 
 // ═══════════════════════════════════════════════
@@ -1804,12 +1805,23 @@ function shuffleQuestionOptions(questions) {
 }
   // Anti-AI: auto-submit on page hide / visibility change
   document.addEventListener("visibilitychange", handleVisibility);
+  document.addEventListener("visibilitychange", handleVisibilityReturn);
   window.addEventListener("beforeunload", handleBeforeUnload);
 }
 
 function handleVisibility() {
-  if (document.hidden && quizActive && !submitted) {
-    forceSubmit();
+  if (!document.hidden || !quizActive || submitted) return;
+  visibilityTimer = setTimeout(() => {
+    if (document.hidden && quizActive && !submitted) {
+      forceSubmit();
+    }
+  }, 2000);
+}
+
+function handleVisibilityReturn() {
+  if (visibilityTimer) {
+    clearTimeout(visibilityTimer);
+    visibilityTimer = null;
   }
 }
 
@@ -1958,6 +1970,8 @@ function doSubmit() {
   timerInterval = null;
   closeConfirm();
   document.removeEventListener("visibilitychange", handleVisibility);
+  document.removeEventListener("visibilitychange", handleVisibilityReturn);
+  if (visibilityTimer) { clearTimeout(visibilityTimer); visibilityTimer = null; }
   window.removeEventListener("beforeunload", handleBeforeUnload);
 
   goTo("submitting");
