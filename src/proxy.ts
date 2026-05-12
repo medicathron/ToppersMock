@@ -10,7 +10,10 @@ export default auth((req) => {
   const role = session?.user?.role;
   const needsRegistration = session?.user?.needsRegistration;
 
-  const isTutorRoute = pathname.startsWith("/tutor");
+  const isTutorRoute =
+    pathname.startsWith("/tutor") &&
+    pathname !== "/tutor/login" &&
+    pathname !== "/tutor/register";
   const isStudentRoute =
     pathname.startsWith("/profile") ||
     pathname.startsWith("/quiz") ||
