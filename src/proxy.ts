@@ -20,6 +20,12 @@ export default auth((req) => {
     pathname.startsWith("/results");
   const isRegisterRoute = pathname === "/register";
 
+  if (pathname === "/") {
+    if (role === "STUDENT" && !needsRegistration) return NextResponse.redirect(new URL("/profile", req.url));
+    if (role === "TUTOR") return NextResponse.redirect(new URL("/tutor/dashboard", req.url));
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
   if (isTutorRoute && role !== "TUTOR") {
     return NextResponse.redirect(new URL("/tutor/login", req.url));
   }
