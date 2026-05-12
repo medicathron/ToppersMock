@@ -5,11 +5,20 @@ import { prisma } from "@/lib/prisma";
 export async function GET() {
   try {
     const session = await auth();
-    if (session?.user?.role !== "TUTOR") return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+    if (session.user.role === "TUTOR") {
+      const courses = await prisma.course.findMany({
+        where: { tutorId: session.user.id },
+        include: { _count: { select: { questions: true, sessions: true } } },
+        orderBy: { createdAt: "desc" },
+      });
+      return NextResponse.json(courses);
+    }
+
+    // Students see all courses with question counts
     const courses = await prisma.course.findMany({
-      where: { tutorId: session.user.id },
-      include: { _count: { select: { questions: true, sessions: true } } },
+      include: { _count: { select: { questions: true } } },
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json(courses);

@@ -61,7 +61,12 @@ export default function QuizSelectPage() {
           </label>
           <select
             value={selectedId}
-            onChange={(e) => { setSelectedId(e.target.value); setNumQuestions(20); }}
+            onChange={(e) => {
+              const id = e.target.value;
+              setSelectedId(id);
+              const c = courses.find((x) => x.id === id);
+              setNumQuestions(Math.min(20, c?._count.questions ?? 20));
+            }}
             style={{ border: "1.5px solid var(--border)", borderRadius: 8, color: "var(--dark)" }}
             className="w-full px-3 py-2 text-sm outline-none"
           >
