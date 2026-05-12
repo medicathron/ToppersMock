@@ -10,5 +10,8 @@ export default defineConfig({
   },
   datasource: {
     url: process.env["DATABASE_URL"] ?? "file:./prisma/dev.db",
+    ...(process.env["DATABASE_AUTH_TOKEN"] && {
+      authToken: process.env["DATABASE_AUTH_TOKEN"],
+    }),
   },
 });
