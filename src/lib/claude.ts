@@ -53,7 +53,7 @@ export async function generateQuestions(
   count: number,
   isTopic = false
 ): Promise<GeneratedQuestion[]> {
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
   const prompt = isTopic
     ? `Generate ${count} multiple-choice questions on the topic: "${content}".${PROMPT_SUFFIX}`
     : `Generate ${count} multiple-choice questions based on the following content:\n\n${content}${PROMPT_SUFFIX}`;
@@ -67,7 +67,7 @@ export async function generateQuestionsFromImage(
   mimeType: string,
   count: number
 ): Promise<GeneratedQuestion[]> {
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
   const result = await model.generateContent([
     { inlineData: { data: base64Data, mimeType } },
     `Generate ${count} multiple-choice questions based on the content in this image.${PROMPT_SUFFIX}`,
