@@ -1,0 +1,19 @@
+import { PrismaClient } from "@prisma/client";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
+import path from "path";
+
+function createPrismaClient() {
+  const dbUrl = process.env.DATABASE_URL ?? "file:./prisma/dev.db";
+  // libsql requires absolute file:// URL for local SQLite
+  const url = dbUrl.startsWith("file:")
+    ? `file://${path.resolve(dbUrl.replace(/^file:\/\//, "").replace(/^file:/, ""))}`
+    : dbUrl;
+  const adapter = new PrismaLibSql({ url });
+  return new PrismaClient({ adapter });
+}
+
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+
+export const prisma = globalForPrisma.prisma ?? createPrismaClient();
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;

@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --orange: #e05c1a;
+  --orange2: #f07030;
+  --orange-pale: #fff3ec;
+  --dark: #1c1612;
+  --dark2: #2e2820;
+  --muted: #857a6e;
+  --border: #e8e0d6;
+  --green: #1e7a45;
+  --red: #c0392b;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-orange: var(--orange);
+  --color-orange2: var(--orange2);
+  --color-orange-pale: var(--orange-pale);
+  --color-dark: var(--dark);
+  --color-dark2: var(--dark2);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-green: var(--green);
+  --color-red: var(--red);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--dark);
+  font-family: "DM Sans", sans-serif;
+  min-height: 100vh;
+}
+
+@keyframes pulse-timer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.pulse-timer {
+  animation: pulse-timer 1s ease-in-out infinite;
+}
+
+input, select, textarea {
+  font-family: inherit;
+}
