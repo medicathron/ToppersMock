@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum Role {
+  TUTOR
+  STUDENT
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String?  @unique
+  matric       String?  @unique
+  passwordHash String?
+  role         Role
+  createdAt    DateTime @default(now())
+
+  tutorProfile   TutorProfile?
+  studentProfile StudentProfile?
+  courses        Course[]
+  quizSessions   QuizSession[]
+}
+
+model TutorProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  name   String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AllowedStudent {
+  id         String   @id @default(cuid())
+  matric     String   @unique
+  tutorId    String
+  registered Boolean  @default(false)
+  userId     String?  @unique
+  createdAt  DateTime @default(now())
+}
+
+model StudentProfile {
+  id         String @id @default(cuid())
+  userId     String @unique
+  matric     String @unique
+  surname    String
+  firstname  String
+  phone      String
+  gender     String
+  faculty    String
+  dept       String
+  aimedScore Int    @default(70)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Course {
+  id              String   @id @default(cuid())
+  tutorId         String
+  name            String
+  code            String
+  description     String?
+  timePerQuestion Int      @default(60)
+  resultsReleased Boolean  @default(false)
+  createdAt       DateTime @default(now())
+
+  tutor     User          @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+  questions Question[]
+  sessions  QuizSession[]
+}
+
+model Question {
+  id                 String   @id @default(cuid())
+  courseId           String
+  questionText       String
+  options            String
+  correctAnswerIndex Int
+  explanation        String?
+  createdAt          DateTime @default(now())
+
+  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  quizAnswers QuizAnswer[]
+}
+
+model QuizSession {
+  id               String    @id @default(cuid())
+  studentId        String
+  courseId         String
+  numQuestions     Int
+  timeLimitSeconds Int
+  timeElapsed      Int       @default(0)
+  startedAt        DateTime  @default(now())
+  submittedAt      DateTime?
+  score            Int?
+
+  student  User         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  course   Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  answers  QuizAnswer[]
+}
+
+model QuizAnswer {
+  id                   String   @id @default(cuid())
+  sessionId            String
+  questionId           String
+  questionOrder        Int
+  shuffledOptions      String
+  shuffledCorrectIndex Int
+  selectedOption       Int?
+  isCorrect            Boolean?
+
+  session  QuizSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, questionOrder])
+}
