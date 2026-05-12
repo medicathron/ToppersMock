@@ -1,5 +1,3 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
 export interface GeneratedQuestion {
   question: string;
   options: string[];
@@ -7,7 +5,7 @@ export interface GeneratedQuestion {
   explanation?: string;
 }
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 const PROMPT_SUFFIX = `
 
@@ -48,18 +46,41 @@ function parseQuestions(raw: string): GeneratedQuestion[] {
   });
 }
 
+async function groqChat(messages: unknown[]): Promise<string> {
+  const res = await fetch(GROQ_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: "llama-3.3-70b-versatile",
+      messages,
+      max_tokens: 4096,
+      temperature: 0.7,
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Groq API error ${res.status}: ${err}`);
+  }
+
+  const data = await res.json();
+  return data.choices[0].message.content as string;
+}
+
 export async function generateQuestions(
   content: string,
   count: number,
   isTopic = false
 ): Promise<GeneratedQuestion[]> {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
   const prompt = isTopic
     ? `Generate ${count} multiple-choice questions on the topic: "${content}".${PROMPT_SUFFIX}`
     : `Generate ${count} multiple-choice questions based on the following content:\n\n${content}${PROMPT_SUFFIX}`;
 
-  const result = await model.generateContent(prompt);
-  return parseQuestions(result.response.text());
+  const raw = await groqChat([{ role: "user", content: prompt }]);
+  return parseQuestions(raw);
 }
 
 export async function generateQuestionsFromImage(
@@ -67,10 +88,14 @@ export async function generateQuestionsFromImage(
   mimeType: string,
   count: number
 ): Promise<GeneratedQuestion[]> {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-  const result = await model.generateContent([
-    { inlineData: { data: base64Data, mimeType } },
-    `Generate ${count} multiple-choice questions based on the content in this image.${PROMPT_SUFFIX}`,
+  const raw = await groqChat([
+    {
+      role: "user",
+      content: [
+        { type: "image_url", image_url: { url: `data:${mimeType};base64,${base64Data}` } },
+        { type: "text", text: `Generate ${count} multiple-choice questions based on the content in this image.${PROMPT_SUFFIX}` },
+      ],
+    },
   ]);
-  return parseQuestions(result.response.text());
+  return parseQuestions(raw);
 }

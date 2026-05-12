@@ -49,8 +49,8 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     console.error("[generate]", e);
     const msg = e instanceof Error ? e.message : String(e);
-    if (msg.includes("API key") || msg.includes("API_KEY") || msg.includes("403") || msg.includes("401")) {
-      return NextResponse.json({ error: "AI API key is missing or invalid. Add GEMINI_API_KEY in Vercel environment variables." }, { status: 500 });
+    if (msg.includes("GROQ_API_KEY") || msg.includes("API key") || msg.includes("403") || msg.includes("401")) {
+      return NextResponse.json({ error: "Groq API key is missing or invalid. Add GROQ_API_KEY in Vercel environment variables." }, { status: 500 });
     }
     return NextResponse.json({ error: msg || "Server error. Please try again." }, { status: 500 });
   }
