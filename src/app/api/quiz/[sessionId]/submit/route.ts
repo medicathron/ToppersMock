@@ -10,7 +10,7 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ se
 
     const quizSession = await prisma.quizSession.findUnique({
       where: { id: sessionId },
-      include: { answers: true },
+      include: { answers: true, course: { select: { code: true } } },
     });
 
     if (!quizSession || quizSession.studentId !== session.user.id) {
@@ -37,6 +37,27 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ se
         data: { submittedAt: new Date(), score },
       }),
     ]);
+
+    // Best-effort score sync back to Toppers Tutorial
+    const student = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { matric: true },
+    });
+    if (student?.matric?.startsWith("TT/") && process.env.TOPPERS_BACKEND_URL) {
+      fetch(`${process.env.TOPPERS_BACKEND_URL}/api/quiz/mock-result`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Mock-Secret": process.env.TOPPERS_SSO_SECRET ?? "",
+        },
+        body: JSON.stringify({
+          tutorialId: student.matric,
+          course: quizSession.course.code,
+          score,
+          total: quizSession.numQuestions,
+        }),
+      }).catch(() => {});
+    }
 
     return NextResponse.json({ score, total: quizSession.numQuestions });
   } catch (e) {
