@@ -29,6 +29,7 @@ export default function QuizPage() {
   const [session, setSession] = useState<QuizSessionData | null>(null);
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number | null>>({});
+  const [flagged, setFlagged] = useState<Record<string, boolean>>({});
   const [display, setDisplay] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -39,13 +40,11 @@ export default function QuizPage() {
   const visTimerRef = useRef<NodeJS.Timeout | null>(null);
   const syncTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Submit function — always server-side
   const submit = useCallback(async () => {
     if (isSubmittedRef.current) return;
     isSubmittedRef.current = true;
     setSubmitting(true);
 
-    // Save final answers first
     const currentAnswers = Object.entries(answers).map(([id, selectedOption]) => ({
       id,
       selectedOption: selectedOption ?? null,
@@ -60,44 +59,31 @@ export default function QuizPage() {
     router.push(`/results/${sessionId}`);
   }, [sessionId, answers, router]);
 
-  // Load session
   useEffect(() => {
     fetch(`/api/quiz/${sessionId}`)
       .then((r) => r.json())
       .then((data: QuizSessionData) => {
-        if (data.submittedAt) {
-          router.push(`/results/${sessionId}`);
-          return;
-        }
+        if (data.submittedAt) { router.push(`/results/${sessionId}`); return; }
         setSession(data);
         const remaining = data.timeLimitSeconds - data.timeElapsed;
         timeLeftRef.current = Math.max(remaining, 0);
         setDisplay(Math.max(remaining, 0));
-
-        // Restore any saved answers
         const saved: Record<string, number | null> = {};
-        data.answers.forEach((a) => {
-          saved[a.id] = a.selectedOption;
-        });
+        data.answers.forEach((a) => { saved[a.id] = a.selectedOption; });
         setAnswers(saved);
       });
   }, [sessionId, router]);
 
-  // Countdown timer
   useEffect(() => {
     if (!session) return;
     const id = setInterval(() => {
       timeLeftRef.current = Math.max(timeLeftRef.current - 1, 0);
       setDisplay(timeLeftRef.current);
-      if (timeLeftRef.current <= 0) {
-        clearInterval(id);
-        submit();
-      }
+      if (timeLeftRef.current <= 0) { clearInterval(id); submit(); }
     }, 1000);
     return () => clearInterval(id);
   }, [session, submit]);
 
-  // Sync answers + timeElapsed every 10s
   useEffect(() => {
     if (!session) return;
     syncTimerRef.current = setInterval(() => {
@@ -112,7 +98,6 @@ export default function QuizPage() {
     return () => { if (syncTimerRef.current) clearInterval(syncTimerRef.current); };
   }, [session, sessionId, answers]);
 
-  // Anti-cheat: tab visibility
   useEffect(() => {
     function handleVisibility() {
       if (document.hidden && !isSubmittedRef.current) {
@@ -132,13 +117,9 @@ export default function QuizPage() {
     };
   }, [submit]);
 
-  // Beforeunload
   useEffect(() => {
     function handleUnload(e: BeforeUnloadEvent) {
-      if (!isSubmittedRef.current) {
-        e.preventDefault();
-        e.returnValue = "";
-      }
+      if (!isSubmittedRef.current) { e.preventDefault(); e.returnValue = ""; }
     }
     window.addEventListener("beforeunload", handleUnload);
     return () => window.removeEventListener("beforeunload", handleUnload);
@@ -154,8 +135,8 @@ export default function QuizPage() {
 
   const q = session.answers[currentQ];
   const answeredCount = Object.values(answers).filter((v) => v !== null).length;
+  const progressPct = Math.round((answeredCount / session.numQuestions) * 100);
 
-  // Timer display + color
   const mins = Math.floor(display / 60).toString().padStart(2, "0");
   const secs = (display % 60).toString().padStart(2, "0");
   const timerColor = display <= 60 ? "var(--red)" : display <= 300 ? "var(--orange)" : "#fff";
@@ -165,9 +146,13 @@ export default function QuizPage() {
     setAnswers((prev) => ({ ...prev, [q.id]: optIdx }));
   }
 
+  function toggleFlag() {
+    setFlagged((prev) => ({ ...prev, [q.id]: !prev[q.id] }));
+  }
+
   return (
     <div className="min-h-screen" style={{ background: "var(--dark)", padding: 0, margin: 0 }}>
-      {/* Header bar */}
+      {/* Header */}
       <div
         style={{ background: "var(--dark2)", borderBottom: "1px solid rgba(255,255,255,0.08)", padding: "12px 20px" }}
         className="flex items-center justify-between"
@@ -177,7 +162,7 @@ export default function QuizPage() {
         </span>
         <div className="flex items-center gap-4">
           <span style={{ color: "var(--muted)", fontSize: 13 }}>
-            {answeredCount}/{session.numQuestions} answered
+            {answeredCount}/{session.numQuestions}
           </span>
           <span
             style={{ color: timerColor, fontWeight: 700, fontSize: 18, fontFamily: "monospace" }}
@@ -188,30 +173,36 @@ export default function QuizPage() {
         </div>
       </div>
 
+      {/* Progress bar */}
+      <div style={{ height: 3, background: "rgba(255,255,255,0.08)" }}>
+        <div style={{ height: "100%", width: `${progressPct}%`, background: "var(--orange)", transition: "width 0.3s ease" }} />
+      </div>
+
       {tabWarning && (
         <div style={{ background: "var(--red)", color: "#fff", padding: "8px 16px", textAlign: "center", fontSize: 13, fontWeight: 600 }}>
-          ⚠ You left the quiz tab! Return now or the quiz will auto-submit in 2 seconds.
+          ⚠ You left the quiz tab! Return now or it will auto-submit in 2 seconds.
         </div>
       )}
 
-      <div className="flex gap-0" style={{ height: "calc(100vh - 53px)" }}>
-        {/* Question navigator dots */}
+      <div className="flex gap-0" style={{ height: "calc(100vh - 56px)" }}>
+        {/* Desktop sidebar navigator */}
         <div
           style={{ background: "var(--dark2)", width: 72, padding: "12px 8px", overflowY: "auto", borderRight: "1px solid rgba(255,255,255,0.06)" }}
-          className="flex flex-col gap-1 items-center"
+          className="hidden sm:flex flex-col gap-1 items-center"
         >
           {session.answers.map((a, i) => {
             const isAnswered = answers[a.id] !== null && answers[a.id] !== undefined;
             const isCurrent = i === currentQ;
+            const isFlagged = flagged[a.id];
             return (
               <button
                 key={a.id}
                 onClick={() => setCurrentQ(i)}
                 style={{
                   width: 32, height: 32, borderRadius: 6, fontSize: 11, fontWeight: 700,
-                  background: isCurrent ? "var(--orange)" : isAnswered ? "rgba(255,255,255,0.15)" : "transparent",
-                  color: isCurrent ? "#fff" : isAnswered ? "#fff" : "var(--muted)",
-                  border: isCurrent ? "none" : "1px solid rgba(255,255,255,0.1)",
+                  background: isCurrent ? "var(--orange)" : isFlagged ? "rgba(214,137,16,0.25)" : isAnswered ? "rgba(255,255,255,0.15)" : "transparent",
+                  color: isCurrent ? "#fff" : isFlagged ? "#d68910" : isAnswered ? "#fff" : "var(--muted)",
+                  border: isCurrent ? "none" : isFlagged ? "1px solid #d68910" : "1px solid rgba(255,255,255,0.1)",
                 }}
               >
                 {i + 1}
@@ -220,72 +211,145 @@ export default function QuizPage() {
           })}
         </div>
 
-        {/* Question area */}
-        <div className="flex-1 flex flex-col p-6 overflow-auto">
-          <p style={{ color: "var(--muted)", fontSize: 12, marginBottom: 8 }}>
-            Question {currentQ + 1} of {session.numQuestions}
-          </p>
-
-          <div style={{ background: "var(--dark2)", borderRadius: 12, padding: "20px 24px" }} className="mb-5">
-            <p style={{ color: "#fff", fontSize: 16, lineHeight: 1.6 }}>{q.questionText ?? "Loading…"}</p>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            {(q.shuffledOptions ?? []).map((opt, i) => {
-              const selected = answers[q.id] === i;
+        {/* Main question area */}
+        <div className="flex-1 flex flex-col overflow-auto">
+          {/* Mobile horizontal dots */}
+          <div
+            className="sm:hidden flex gap-1 overflow-x-auto px-4 py-2"
+            style={{ background: "var(--dark2)", borderBottom: "1px solid rgba(255,255,255,0.06)", flexShrink: 0 }}
+          >
+            {session.answers.map((a, i) => {
+              const isAnswered = answers[a.id] !== null && answers[a.id] !== undefined;
+              const isCurrent = i === currentQ;
+              const isFlagged = flagged[a.id];
               return (
                 <button
-                  key={i}
-                  onClick={() => selectAnswer(i)}
+                  key={a.id}
+                  onClick={() => setCurrentQ(i)}
                   style={{
-                    background: selected ? "var(--orange)" : "var(--dark2)",
-                    border: `1.5px solid ${selected ? "var(--orange)" : "rgba(255,255,255,0.1)"}`,
-                    borderRadius: 10, padding: "12px 16px",
-                    color: selected ? "#fff" : "var(--border)",
-                    textAlign: "left", fontSize: 14, cursor: "pointer",
+                    minWidth: 28, height: 28, borderRadius: 6, fontSize: 10, fontWeight: 700, flexShrink: 0,
+                    background: isCurrent ? "var(--orange)" : isFlagged ? "rgba(214,137,16,0.25)" : isAnswered ? "rgba(255,255,255,0.15)" : "transparent",
+                    color: isCurrent ? "#fff" : isFlagged ? "#d68910" : isAnswered ? "#fff" : "var(--muted)",
+                    border: isCurrent ? "none" : "1px solid rgba(255,255,255,0.1)",
                   }}
-                  className="flex items-start gap-3 hover:opacity-80 transition-opacity"
                 >
-                  <span style={{
-                    minWidth: 28, height: 28, borderRadius: 6,
-                    background: selected ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.08)",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontWeight: 700, fontSize: 12,
-                  }}>
-                    {OPT_LABELS[i]}
-                  </span>
-                  {opt}
+                  {i + 1}
                 </button>
               );
             })}
           </div>
 
-          {/* Navigation */}
-          <div className="flex justify-between mt-6">
+          <div className="flex-1 p-4 sm:p-6 overflow-auto">
+            <div className="flex items-center justify-between mb-3">
+              <p style={{ color: "var(--muted)", fontSize: 12 }}>
+                Question {currentQ + 1} of {session.numQuestions}
+              </p>
+              <button
+                onClick={toggleFlag}
+                style={{
+                  fontSize: 11, fontWeight: 600,
+                  color: flagged[q.id] ? "#d68910" : "var(--muted)",
+                  background: flagged[q.id] ? "rgba(214,137,16,0.15)" : "transparent",
+                  border: `1px solid ${flagged[q.id] ? "#d68910" : "rgba(255,255,255,0.1)"}`,
+                  borderRadius: 6, padding: "4px 10px", cursor: "pointer",
+                }}
+              >
+                {flagged[q.id] ? "★ Flagged" : "☆ Flag"}
+              </button>
+            </div>
+
+            <div style={{ background: "var(--dark2)", borderRadius: 12, padding: "18px 20px" }} className="mb-4">
+              <p style={{ color: "#fff", fontSize: 15, lineHeight: 1.65 }}>{q.questionText ?? "Loading…"}</p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              {(q.shuffledOptions ?? []).map((opt, i) => {
+                const selected = answers[q.id] === i;
+                return (
+                  <button
+                    key={i}
+                    onClick={() => selectAnswer(i)}
+                    className="quiz-option flex items-start gap-3"
+                    style={{
+                      background: selected ? "var(--orange)" : "var(--dark2)",
+                      border: `1.5px solid ${selected ? "var(--orange)" : "rgba(255,255,255,0.1)"}`,
+                      borderRadius: 10, padding: "12px 16px",
+                      color: selected ? "#fff" : "var(--border)",
+                      textAlign: "left", fontSize: 14, cursor: "pointer", width: "100%",
+                    }}
+                  >
+                    <span style={{
+                      minWidth: 28, height: 28, borderRadius: 6,
+                      background: selected ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.08)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontWeight: 700, fontSize: 12, flexShrink: 0,
+                    }}>
+                      {OPT_LABELS[i]}
+                    </span>
+                    {opt}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Desktop nav */}
+            <div className="hidden sm:flex justify-between mt-6">
+              <button
+                onClick={() => setCurrentQ((q) => Math.max(q - 1, 0))}
+                disabled={currentQ === 0}
+                style={{ border: "1px solid rgba(255,255,255,0.15)", borderRadius: 8, color: "var(--border)", fontSize: 13 }}
+                className="px-5 py-2 hover:opacity-80 disabled:opacity-30 transition-opacity"
+              >
+                ← Previous
+              </button>
+              {currentQ < session.numQuestions - 1 ? (
+                <button
+                  onClick={() => setCurrentQ((q) => q + 1)}
+                  style={{ background: "var(--orange)", color: "#fff", borderRadius: 8, fontSize: 13 }}
+                  className="px-5 py-2 hover:opacity-90 transition-opacity"
+                >
+                  Next →
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowModal(true)}
+                  style={{ background: "var(--green)", color: "#fff", borderRadius: 8, fontSize: 13 }}
+                  className="px-5 py-2 hover:opacity-90 transition-opacity font-semibold"
+                >
+                  Submit Quiz
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Mobile bottom bar */}
+          <div
+            className="sm:hidden flex items-center gap-2 p-3"
+            style={{ background: "var(--dark2)", borderTop: "1px solid rgba(255,255,255,0.08)", flexShrink: 0 }}
+          >
             <button
               onClick={() => setCurrentQ((q) => Math.max(q - 1, 0))}
               disabled={currentQ === 0}
-              style={{ border: "1px solid rgba(255,255,255,0.15)", borderRadius: 8, color: "var(--border)", fontSize: 13 }}
-              className="px-5 py-2 hover:opacity-80 disabled:opacity-30 transition-opacity"
+              style={{ border: "1px solid rgba(255,255,255,0.15)", borderRadius: 8, color: "var(--border)", fontSize: 13, flex: 1 }}
+              className="py-2.5 hover:opacity-80 disabled:opacity-30 transition-opacity"
             >
-              ← Previous
+              ← Prev
             </button>
-
             {currentQ < session.numQuestions - 1 ? (
               <button
                 onClick={() => setCurrentQ((q) => q + 1)}
-                style={{ background: "var(--orange)", color: "#fff", borderRadius: 8, fontSize: 13 }}
-                className="px-5 py-2 hover:opacity-90 transition-opacity"
+                style={{ background: "var(--orange)", color: "#fff", borderRadius: 8, fontSize: 13, flex: 1 }}
+                className="py-2.5 hover:opacity-90 transition-opacity"
               >
                 Next →
               </button>
             ) : (
               <button
                 onClick={() => setShowModal(true)}
-                style={{ background: "var(--green)", color: "#fff", borderRadius: 8, fontSize: 13 }}
-                className="px-5 py-2 hover:opacity-90 transition-opacity font-semibold"
+                style={{ background: "var(--green)", color: "#fff", borderRadius: 8, fontSize: 13, flex: 1 }}
+                className="py-2.5 hover:opacity-90 transition-opacity font-semibold"
               >
-                Submit Quiz
+                Submit
               </button>
             )}
           </div>
@@ -294,16 +358,19 @@ export default function QuizPage() {
 
       {/* Submit modal */}
       {showModal && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 50 }}>
-          <div style={{ background: "var(--surface)", borderRadius: 16, padding: 32, maxWidth: 400, width: "90%" }}>
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 50, padding: 16 }}>
+          <div style={{ background: "var(--surface)", borderRadius: 16, padding: 28, maxWidth: 400, width: "100%" }}>
             <h2 style={{ color: "var(--dark)", fontWeight: 700, fontSize: 18 }} className="mb-2">Submit Quiz?</h2>
-            <p style={{ color: "var(--muted)", fontSize: 14 }} className="mb-4">
-              You have answered {answeredCount} of {session.numQuestions} questions.
-              {answeredCount < session.numQuestions && (
-                <span style={{ color: "var(--red)", fontWeight: 600 }}> {session.numQuestions - answeredCount} unanswered.</span>
-              )}
+            <p style={{ color: "var(--muted)", fontSize: 14 }} className="mb-1">
+              You have answered <strong style={{ color: "var(--dark)" }}>{answeredCount}</strong> of{" "}
+              <strong style={{ color: "var(--dark)" }}>{session.numQuestions}</strong> questions.
             </p>
-            <div className="flex gap-3">
+            {answeredCount < session.numQuestions && (
+              <p style={{ color: "var(--red)", fontSize: 13, fontWeight: 600 }} className="mb-2">
+                {session.numQuestions - answeredCount} unanswered.
+              </p>
+            )}
+            <div className="flex gap-3 mt-4">
               <button
                 onClick={() => setShowModal(false)}
                 style={{ flex: 1, border: "1px solid var(--border)", borderRadius: 8, color: "var(--dark)", fontSize: 14 }}
