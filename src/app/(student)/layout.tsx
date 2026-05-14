@@ -22,7 +22,8 @@ export default async function StudentLayout({ children }: { children: React.Reac
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
       {showNav && <StudentNav displayName={displayName} />}
-      <main className="max-w-3xl mx-auto px-4 py-8">{children}</main>
+      {/* pb-20 on mobile gives space above the fixed bottom tab bar */}
+      <main className="max-w-3xl mx-auto px-4 py-8 pb-20 sm:pb-8">{children}</main>
     </div>
   );
 }
