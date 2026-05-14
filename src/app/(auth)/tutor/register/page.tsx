@@ -26,8 +26,12 @@ export default function TutorRegisterPage() {
     });
     setLoading(false);
     if (!res.ok) {
-      const data = await res.json();
-      setError(data.error ?? "Registration failed.");
+      let message = "Registration failed. Please try again.";
+      try {
+        const data = await res.json();
+        if (data.error) message = data.error;
+      } catch {}
+      setError(message);
     } else {
       router.push("/tutor/login?registered=1");
     }

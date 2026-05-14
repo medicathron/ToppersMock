@@ -54,30 +54,4 @@ input, select, textarea {
 
 @media (prefers-reduced-motion: reduce) {
   .pulse-timer { animation: none; }
-  .score-ring-circle { animation: none; }
-  .quiz-option { transition: none; }
 }
-
-/* Score ring */
-@keyframes ring-fill {
-  from { stroke-dashoffset: 283; }
-}
-.score-ring-circle {
-  animation: ring-fill 1s ease-out forwards;
-}
-
-/* Stat card lift on hover */
-.stat-card { transition: box-shadow 0.15s ease; }
-.stat-card:hover { box-shadow: 0 4px 16px rgba(224,92,26,0.12); }
-
-/* Quiz option hover lift */
-.quiz-option { transition: transform 0.15s ease, background 0.1s; }
-@media (hover: hover) {
-  .quiz-option:hover { transform: translateY(-1px); }
-}
-
-/* Scrollbar */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: var(--muted); }

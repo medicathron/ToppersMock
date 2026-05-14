@@ -69,96 +69,27 @@ export default function QuizSelectPage() {
         Select a course and choose how many questions you want.
       </p>
 
-      {/* Course cards */}
-      <div className="flex flex-col gap-3 mb-6">
-        {courses.length === 0 && (
-          <p style={{ color: "var(--muted)", fontSize: 14 }}>Loading courses…</p>
-        )}
-        {courses.map((c) => {
-          const isSelected = selectedId === c.id;
-          const hasQs = c._count.questions > 0;
-          return (
-            <button
-              key={c.id}
-              onClick={() => hasQs && selectCourse(c.id)}
-              disabled={!hasQs}
-              className="quiz-option text-left"
-              style={{
-                background: isSelected ? "var(--dark)" : "var(--surface)",
-                border: `2px solid ${isSelected ? "var(--orange)" : "var(--border)"}`,
-                borderRadius: 12,
-                padding: "16px 18px",
-                cursor: hasQs ? "pointer" : "not-allowed",
-                opacity: hasQs ? 1 : 0.5,
-                width: "100%",
-              }}
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span style={{ color: "var(--orange)", fontWeight: 700, fontSize: 15 }}>
-                      {c.code}
-                    </span>
-                    <span style={{
-                      background: isSelected ? "rgba(255,255,255,0.15)" : "var(--orange-pale)",
-                      color: isSelected ? "#fff" : "var(--orange)",
-                      fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 99,
-                    }}>
-                      {c._count.questions} Qs
-                    </span>
-                    {!hasQs && (
-                      <span style={{ color: "var(--muted)", fontSize: 11 }}>No questions yet</span>
-                    )}
-                  </div>
-                  <p style={{
-                    color: isSelected ? "rgba(255,255,255,0.85)" : "var(--dark)",
-                    fontSize: 14, marginTop: 3, fontWeight: 500,
-                  }}>
-                    {c.name}
-                  </p>
-                  {c.description && (
-                    <p style={{ color: isSelected ? "rgba(255,255,255,0.5)" : "var(--muted)", fontSize: 12, marginTop: 2 }}>
-                      {c.description}
-                    </p>
-                  )}
-                </div>
-                {isSelected && (
-                  <span style={{
-                    width: 22, height: 22, borderRadius: "50%",
-                    background: "var(--orange)", color: "#fff",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 12, fontWeight: 700, flexShrink: 0,
-                  }}>✓</span>
-                )}
-              </div>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Question count + time */}
-      {selected && maxQs > 0 && (
-        <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12 }} className="p-5 mb-5">
-          <p style={{ color: "var(--dark)", fontWeight: 600, fontSize: 14 }} className="mb-3">
-            Number of Questions
-          </p>
-
-          {/* Quick-pick pills */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {[...QUICK_COUNTS.filter((n) => n <= maxQs), ...(QUICK_COUNTS.every((n) => n !== maxQs) ? [maxQs] : [])].map((n) => (
-              <button
-                key={n}
-                onClick={() => setNumQuestions(n)}
-                style={{
-                  border: `1.5px solid ${numQuestions === n ? "var(--orange)" : "var(--border)"}`,
-                  background: numQuestions === n ? "var(--orange)" : "transparent",
-                  color: numQuestions === n ? "#fff" : "var(--dark)",
-                  borderRadius: 99, fontSize: 13, fontWeight: 600,
-                  padding: "5px 16px", cursor: "pointer",
-                }}
-              >
-                {n === maxQs && !QUICK_COUNTS.includes(n) ? `All (${n})` : n}
-              </button>
+      <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 16 }} className="p-6 flex flex-col gap-5">
+        <div>
+          <label style={{ color: "var(--dark)", fontSize: 13, fontWeight: 600 }} className="block mb-1">
+            Select Course
+          </label>
+          <select
+            value={selectedId}
+            onChange={(e) => {
+              const id = e.target.value;
+              setSelectedId(id);
+              const c = courses.find((x) => x.id === id);
+              setNumQuestions(Math.min(20, c?._count.questions ?? 20));
+            }}
+            style={{ border: "1.5px solid var(--border)", borderRadius: 8, color: "var(--dark)" }}
+            className="w-full px-3 py-2 text-sm outline-none"
+          >
+            <option value="">— Choose a course —</option>
+            {courses.map((c) => (
+              <option key={c.id} value={c.id} disabled={c._count.questions === 0}>
+                {c.code} — {c.name} ({c._count.questions} questions)
+              </option>
             ))}
           </div>
 

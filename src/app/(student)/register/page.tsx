@@ -43,7 +43,6 @@ export default function RegisterPage() {
       const d = await res.json();
       setError(d.error ?? "Registration failed.");
     } else {
-      // Update session to clear needsRegistration flag
       await update({ needsRegistration: false });
       router.push("/profile");
     }
@@ -59,7 +58,7 @@ export default function RegisterPage() {
       </p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {[
             { id: "surname", label: "Surname", placeholder: "SMITH" },
             { id: "firstname", label: "First Name", placeholder: "Jane" },
@@ -111,7 +110,7 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label style={{ color: "var(--dark)", fontSize: 13, fontWeight: 600 }} className="block mb-1">Faculty</label>
             <select
@@ -155,7 +154,7 @@ export default function RegisterPage() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label style={{ color: "var(--dark)", fontSize: 13, fontWeight: 600 }} className="block mb-1">Password</label>
             <input

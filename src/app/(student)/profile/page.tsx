@@ -126,7 +126,7 @@ export default async function ProfilePage() {
       {/* CTA */}
       <div
         style={{ background: "var(--dark)", borderRadius: 16 }}
-        className="p-5 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+        className="p-6 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
       >
         <div>
           <p style={{ color: "#fff", fontWeight: 700, fontSize: 16 }}>Ready to practice?</p>

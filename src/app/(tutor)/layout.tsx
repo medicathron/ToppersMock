@@ -1,51 +1,31 @@
 import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import Link from "next/link";
+import TutorSidebar from "@/components/layout/TutorSidebar";
 
 export default async function TutorLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   if (session?.user?.role !== "TUTOR") redirect("/tutor/login");
 
+  const pendingCount = await prisma.quizSession.count({
+    where: {
+      submittedAt: { not: null },
+      course: { tutorId: session.user.id, resultsReleased: false },
+    },
+  });
+
   const links = [
-    { href: "/tutor/dashboard", label: "Dashboard" },
-    { href: "/tutor/courses", label: "Courses" },
-    { href: "/tutor/students", label: "Students" },
-    { href: "/tutor/results", label: "Results" },
+    { href: "/tutor/dashboard", label: "Dashboard", icon: "dashboard" as const },
+    { href: "/tutor/courses",   label: "Courses",   icon: "courses"   as const },
+    { href: "/tutor/students",  label: "Students",  icon: "students"  as const },
+    { href: "/tutor/results",   label: "Results",   icon: "results"   as const, badge: pendingCount || undefined },
   ];
 
   return (
     <div className="min-h-screen flex" style={{ background: "var(--bg)" }}>
-      {/* Sidebar */}
-      <aside
-        style={{ background: "var(--dark2)", width: 220, minHeight: "100vh" }}
-        className="flex flex-col px-4 py-6 gap-1 shrink-0"
-      >
-        <div style={{ fontFamily: "var(--font-dm-serif)", color: "var(--orange)", fontSize: 22 }} className="mb-8 px-2">
-          ToppersMock
-        </div>
-        {links.map(({ href, label }) => (
-          <Link
-            key={href}
-            href={href}
-            style={{ color: "var(--border)", borderRadius: 8, fontSize: 14 }}
-            className="px-3 py-2 hover:bg-white/10 transition-colors font-medium"
-          >
-            {label}
-          </Link>
-        ))}
-        <div className="mt-auto">
-          <Link
-            href="/api/auth/signout"
-            style={{ color: "var(--muted)", fontSize: 13 }}
-            className="px-3 py-2 block hover:text-white transition-colors"
-          >
-            Sign out
-          </Link>
-        </div>
-      </aside>
-
-      {/* Main content */}
-      <main className="flex-1 p-8 overflow-auto">{children}</main>
+      <TutorSidebar links={links} />
+      {/* pt-16 on mobile creates space for the fixed hamburger button */}
+      <main className="flex-1 p-6 md:p-8 overflow-auto pt-16 md:pt-8">{children}</main>
     </div>
   );
 }

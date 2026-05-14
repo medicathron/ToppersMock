@@ -71,25 +71,17 @@ export default async function ResultsPage({ params }: { params: Promise<{ sessio
             </p>
           </div>
         ) : (
-          <div className="flex flex-col sm:flex-row items-center gap-6 mt-4">
-            {/* SVG ring */}
-            <div style={{ flexShrink: 0 }}>
-              <svg width="110" height="110" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="var(--border)" strokeWidth="10" />
-                <circle
-                  className="score-ring-circle"
-                  cx="50" cy="50" r="45"
-                  fill="none"
-                  stroke={scoreColor}
-                  strokeWidth="10"
-                  strokeLinecap="round"
-                  strokeDasharray={CIRC}
-                  strokeDashoffset={dashOffset}
-                  transform="rotate(-90 50 50)"
-                />
-                <text x="50" y="46" textAnchor="middle" style={{ fontSize: 20, fontWeight: 700, fill: scoreColor, fontFamily: "monospace" }}>{pct}%</text>
-                <text x="50" y="62" textAnchor="middle" style={{ fontSize: 9, fill: "var(--muted)", fontFamily: "sans-serif" }}>{score}/{numQuestions}</text>
-              </svg>
+          <div className="flex flex-wrap items-center gap-6 mt-3">
+            <div>
+              <p style={{ color: "var(--muted)", fontSize: 12 }}>Score</p>
+              <p style={{ color: "var(--dark)", fontWeight: 700, fontSize: 36 }}>{score}/{numQuestions}</p>
+            </div>
+            <div>
+              <p style={{ color: "var(--muted)", fontSize: 12 }}>Percentage</p>
+              <p style={{
+                fontWeight: 700, fontSize: 36,
+                color: pct >= 70 ? "var(--green)" : pct >= 50 ? "var(--orange)" : "var(--red)",
+              }}>{pct}%</p>
             </div>
 
             {/* Stats */}
@@ -119,15 +111,74 @@ export default async function ResultsPage({ params }: { params: Promise<{ sessio
       {/* Answer review */}
       {released && (
         <div>
-          <div className="flex items-center justify-between mb-3">
-            <h2 style={{ color: "var(--dark)", fontWeight: 700, fontSize: 16 }}>Answer Review</h2>
-            <p style={{ color: "var(--muted)", fontSize: 12 }}>Tap a question to expand</p>
+          <h2 style={{ color: "var(--dark)", fontWeight: 700, fontSize: 18 }} className="mb-4">Answer Review</h2>
+          <div className="flex flex-col gap-3">
+            {answers.map((a, idx) => {
+              const opts: string[] = JSON.parse(a.shuffledOptions);
+              const correct = a.shuffledCorrectIndex;
+              const selected = a.selectedOption;
+
+              return (
+                <div
+                  key={a.id}
+                  style={{
+                    background: "var(--surface)",
+                    border: `1px solid ${a.isCorrect ? "var(--green)" : "var(--red)"}`,
+                    borderRadius: 12,
+                  }}
+                  className="p-4"
+                >
+                  <div className="flex items-start gap-3 mb-3">
+                    <span style={{
+                      minWidth: 24, height: 24, borderRadius: 6,
+                      background: a.isCorrect ? "var(--green)" : "var(--red)",
+                      color: "#fff", fontSize: 11, fontWeight: 700,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    }}>
+                      {a.isCorrect ? "✓" : "✗"}
+                    </span>
+                    <p style={{ color: "var(--dark)", fontSize: 14, lineHeight: 1.5 }}>
+                      <strong style={{ color: "var(--muted)", fontSize: 12 }}>Q{idx + 1}. </strong>
+                      {a.question.questionText}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                    {opts.map((opt, i) => {
+                      const isCorrectOpt = i === correct;
+                      const isSelectedOpt = i === selected;
+                      let bg = "transparent";
+                      let border = "1px solid var(--border)";
+                      let color = "var(--muted)";
+                      if (isCorrectOpt) { bg = "rgba(30,122,69,0.1)"; border = "1px solid var(--green)"; color = "var(--green)"; }
+                      if (isSelectedOpt && !isCorrectOpt) { bg = "rgba(192,57,43,0.1)"; border = "1px solid var(--red)"; color = "var(--red)"; }
+                      return (
+                        <div key={i} style={{ background: bg, border, borderRadius: 6, padding: "6px 10px", fontSize: 12 }}>
+                          <span style={{ color, fontWeight: 700 }}>{OPT_LABELS[i]}. </span>
+                          <span style={{ color }}>{opt}</span>
+                          {isCorrectOpt && <span style={{ color: "var(--green)", fontSize: 11 }}> ✓</span>}
+                          {isSelectedOpt && !isCorrectOpt && <span style={{ color: "var(--red)", fontSize: 11 }}> ✗</span>}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {a.question.explanation && (
+                    <div style={{ background: "var(--orange-pale)", borderRadius: 6, padding: "8px 10px", marginTop: 8 }}>
+                      <p style={{ color: "var(--dark)", fontSize: 12 }}>
+                        <strong style={{ color: "var(--orange)" }}>Explanation: </strong>
+                        {a.question.explanation}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
           <ResultsAccordion answers={answers as Parameters<typeof ResultsAccordion>[0]["answers"]} />
         </div>
       )}
 
-      {/* CTA buttons */}
       <div className="mt-6 flex flex-col sm:flex-row gap-3">
         <Link
           href="/quiz/select"

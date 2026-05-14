@@ -36,6 +36,52 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
     Credentials({
+      id: "sso",
+      name: "SSO",
+      credentials: { token: { type: "text" } },
+      async authorize(credentials) {
+        const raw = credentials?.token as string | undefined;
+        if (!raw) return null;
+        const dotIdx = raw.lastIndexOf(".");
+        if (dotIdx === -1) return null;
+        const payload = raw.slice(0, dotIdx);
+        const sig = raw.slice(dotIdx + 1);
+        const crypto = await import("crypto");
+        const expected = crypto
+          .createHmac("sha256", process.env.TOPPERS_SSO_SECRET ?? "")
+          .update(payload)
+          .digest("hex");
+        if (sig !== expected) return null;
+
+        let data: { tutorialId: string; exp: number };
+        try {
+          data = JSON.parse(Buffer.from(payload, "base64url").toString());
+        } catch { return null; }
+        if (data.exp < Math.floor(Date.now() / 1000)) return null;
+
+        const { tutorialId } = data;
+        let allowed = await prisma.allowedStudent.findUnique({ where: { matric: tutorialId } });
+        if (!allowed) {
+          allowed = await prisma.allowedStudent.create({
+            data: { matric: tutorialId, tutorId: "toppers-tutorial", registered: true },
+          });
+        }
+
+        let user = allowed.userId
+          ? await prisma.user.findUnique({ where: { id: allowed.userId } })
+          : null;
+        if (!user) {
+          user = await prisma.user.create({ data: { matric: tutorialId, role: "STUDENT" } });
+          await prisma.allowedStudent.update({
+            where: { matric: tutorialId },
+            data: { userId: user.id, registered: true },
+          });
+        }
+
+        return { id: user.id, matric: tutorialId, role: "STUDENT", needsRegistration: false } as never;
+      },
+    }),
+    Credentials({
       id: "tutor",
       name: "Tutor",
       credentials: {

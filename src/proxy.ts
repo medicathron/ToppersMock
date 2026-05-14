@@ -10,12 +10,21 @@ export default auth((req) => {
   const role = session?.user?.role;
   const needsRegistration = session?.user?.needsRegistration;
 
-  const isTutorRoute = pathname.startsWith("/tutor");
+  const isTutorRoute =
+    pathname.startsWith("/tutor") &&
+    pathname !== "/tutor/login" &&
+    pathname !== "/tutor/register";
   const isStudentRoute =
     pathname.startsWith("/profile") ||
     pathname.startsWith("/quiz") ||
     pathname.startsWith("/results");
   const isRegisterRoute = pathname === "/register";
+
+  if (pathname === "/") {
+    if (role === "STUDENT" && !needsRegistration) return NextResponse.redirect(new URL("/profile", req.url));
+    if (role === "TUTOR") return NextResponse.redirect(new URL("/tutor/dashboard", req.url));
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
 
   if (isTutorRoute && role !== "TUTOR") {
     return NextResponse.redirect(new URL("/tutor/login", req.url));
@@ -36,6 +45,9 @@ export default auth((req) => {
   if (pathname === "/login" && role === "STUDENT" && !needsRegistration) {
     return NextResponse.redirect(new URL("/profile", req.url));
   }
+  if (pathname === "/login" && role === "TUTOR") {
+    return NextResponse.redirect(new URL("/tutor/dashboard", req.url));
+  }
   if (pathname === "/tutor/login" && role === "TUTOR") {
     return NextResponse.redirect(new URL("/tutor/dashboard", req.url));
   }
@@ -45,6 +57,7 @@ export default auth((req) => {
 
 export const config = {
   matcher: [
+    "/",
     "/tutor/:path*",
     "/profile/:path*",
     "/quiz/:path*",
