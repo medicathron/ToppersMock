@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation";
 export default function NewCoursePage() {
   const router = useRouter();
   const [form, setForm] = useState({
-    name: "", code: "", description: "", timePerQuestion: "60",
+    name: "", code: "", description: "", timePerQuestion: "60", resultsReleased: false,
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function set(field: string, value: string) {
+  function set(field: string, value: string | boolean) {
     setForm((f) => ({ ...f, [field]: value }));
   }
 
@@ -51,7 +51,7 @@ export default function NewCoursePage() {
             </label>
             {id === "description" ? (
               <textarea
-                value={form[id as keyof typeof form]}
+                value={form[id as keyof typeof form] as string}
                 onChange={(e) => set(id, e.target.value)}
                 placeholder={placeholder}
                 rows={2}
@@ -61,7 +61,7 @@ export default function NewCoursePage() {
             ) : (
               <input
                 type="text"
-                value={form[id as keyof typeof form]}
+                value={form[id as keyof typeof form] as string}
                 onChange={(e) => set(id, e.target.value)}
                 placeholder={placeholder}
                 style={{ border: "1.5px solid var(--border)", borderRadius: 8, color: "var(--dark)" }}
@@ -90,6 +90,18 @@ export default function NewCoursePage() {
             Total quiz time = number of questions × this value. E.g. 60s → 20 questions = 20 minutes.
           </p>
         </div>
+
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={form.resultsReleased}
+            onChange={(e) => set("resultsReleased", e.target.checked)}
+            style={{ accentColor: "var(--orange)", width: 16, height: 16 }}
+          />
+          <span style={{ color: "var(--dark)", fontSize: 13 }}>
+            Release results to students immediately after submission
+          </span>
+        </label>
 
         {error && <p style={{ color: "var(--red)", fontSize: 13 }}>{error}</p>}
 

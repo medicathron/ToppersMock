@@ -49,7 +49,7 @@ export default async function ProfilePage() {
       {/* CTA */}
       <div
         style={{ background: "var(--dark)", borderRadius: 16 }}
-        className="p-6 mb-6 flex items-center justify-between"
+        className="p-6 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
       >
         <div>
           <p style={{ color: "#fff", fontWeight: 700, fontSize: 18 }}>Ready to practice?</p>
@@ -58,7 +58,7 @@ export default async function ProfilePage() {
         <Link
           href="/quiz/select"
           style={{ background: "var(--orange)", color: "#fff", borderRadius: 8 }}
-          className="px-5 py-2.5 font-semibold text-sm hover:opacity-90 transition-opacity"
+          className="px-5 py-2.5 font-semibold text-sm hover:opacity-90 transition-opacity shrink-0"
         >
           Start a Quiz
         </Link>
@@ -93,8 +93,8 @@ export default async function ProfilePage() {
         {submitted.length === 0 ? (
           <p style={{ color: "var(--muted)", fontSize: 13 }}>No completed quizzes yet.</p>
         ) : (
-          <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12 }} className="overflow-hidden">
-            <table className="w-full">
+          <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12 }} className="overflow-hidden overflow-x-auto">
+            <table className="w-full" style={{ minWidth: 480 }}>
               <thead>
                 <tr style={{ background: "var(--bg)", borderBottom: "1px solid var(--border)" }}>
                   {["Course", "Questions", "Score", "Date", ""].map((h) => (

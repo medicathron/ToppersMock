@@ -51,3 +51,7 @@ body {
 input, select, textarea {
   font-family: inherit;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-timer { animation: none; }
+}

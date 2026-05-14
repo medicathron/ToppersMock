@@ -46,7 +46,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ sessio
             </p>
           </div>
         ) : (
-          <div className="flex items-center gap-6 mt-3">
+          <div className="flex flex-wrap items-center gap-6 mt-3">
             <div>
               <p style={{ color: "var(--muted)", fontSize: 12 }}>Score</p>
               <p style={{ color: "var(--dark)", fontWeight: 700, fontSize: 36 }}>{score}/{numQuestions}</p>
@@ -100,7 +100,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ sessio
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-1.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                     {opts.map((opt, i) => {
                       const isCorrectOpt = i === correct;
                       const isSelectedOpt = i === selected;
@@ -135,7 +135,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ sessio
         </div>
       )}
 
-      <div className="mt-6 flex gap-3">
+      <div className="mt-6 flex flex-col sm:flex-row gap-3">
         <Link
           href="/quiz/select"
           style={{ background: "var(--orange)", color: "#fff", borderRadius: 8 }}
