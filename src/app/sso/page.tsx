@@ -1,10 +1,10 @@
 "use client";
 export const dynamic = "force-dynamic";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
-export default function SSOPage() {
+function SSOFlow() {
   const token = useSearchParams().get("token");
   const router = useRouter();
 
@@ -15,6 +15,10 @@ export default function SSOPage() {
     });
   }, [token, router]);
 
+  return null;
+}
+
+export default function SSOPage() {
   return (
     <div
       style={{
@@ -28,6 +32,9 @@ export default function SSOPage() {
       <p style={{ color: "var(--muted)", fontFamily: "var(--font-dm-sans)", fontSize: 15 }}>
         Signing you in to ToppersMock…
       </p>
+      <Suspense>
+        <SSOFlow />
+      </Suspense>
     </div>
   );
 }
