@@ -1,6 +1,26 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import ProfileCard from "@/components/profile/ProfileCard";
+
+function computeStreak(dates: Date[]): number {
+  if (!dates.length) return 0;
+  const unique = [...new Set(dates.map((d) => d.toDateString()))].sort(
+    (a, b) => new Date(b).getTime() - new Date(a).getTime()
+  );
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  let streak = 0;
+  let expected = today.getTime();
+  for (const ds of unique) {
+    const day = new Date(ds);
+    day.setHours(0, 0, 0, 0);
+    const diffDays = Math.round((expected - day.getTime()) / 86400000);
+    if (diffDays <= 1) { streak++; expected = day.getTime() - 86400000; }
+    else break;
+  }
+  return streak;
+}
 
 export default async function ProfilePage() {
   const session = await auth();
@@ -18,47 +38,104 @@ export default async function ProfilePage() {
   const submitted = history.filter((h) => h.submittedAt);
   const inProgress = history.filter((h) => !h.submittedAt);
 
+  // Stats
+  const releasedSubmitted = submitted.filter((s) => s.course.resultsReleased && s.score !== null);
+  const avgScore = releasedSubmitted.length
+    ? Math.round(releasedSubmitted.reduce((sum, s) => sum + Math.round((s.score! / s.numQuestions) * 100), 0) / releasedSubmitted.length)
+    : null;
+  const bestScore = releasedSubmitted.length
+    ? Math.max(...releasedSubmitted.map((s) => Math.round((s.score! / s.numQuestions) * 100)))
+    : null;
+  const streak = computeStreak(submitted.map((s) => s.submittedAt!));
+
+  // Last 5 released scores for trend bars
+  const trend = releasedSubmitted.slice(0, 5).reverse().map((s) => ({
+    pct: Math.round((s.score! / s.numQuestions) * 100),
+    code: s.course.code,
+  }));
+
+  const statItems = [
+    { label: "Quizzes", value: submitted.length, color: "var(--dark)" },
+    { label: "Avg Score", value: avgScore !== null ? `${avgScore}%` : "—", color: avgScore !== null && avgScore >= 70 ? "var(--green)" : avgScore !== null && avgScore >= 50 ? "var(--orange)" : "var(--dark)" },
+    { label: "Best Score", value: bestScore !== null ? `${bestScore}%` : "—", color: "var(--orange)" },
+    { label: "Streak", value: streak > 0 ? `${streak}d 🔥` : "—", color: streak > 0 ? "var(--orange)" : "var(--dark)" },
+  ];
+
   return (
     <div>
-      {/* Profile card */}
-      <div
-        style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 16 }}
-        className="p-6 mb-6"
-      >
-        <div className="flex items-start justify-between">
-          <div>
-            <h1 style={{ fontFamily: "var(--font-dm-serif)", color: "var(--dark)", fontSize: 28 }}>
-              {profile ? `${profile.surname} ${profile.firstname}` : "Student"}
-            </h1>
-            <p style={{ color: "var(--muted)", fontSize: 14 }}>Matric: {session!.user.matric}</p>
-            {profile && (
-              <p style={{ color: "var(--muted)", fontSize: 13 }} className="mt-0.5">
-                {profile.dept} · {profile.faculty}
-              </p>
-            )}
-          </div>
-          {profile && (
-            <div style={{ textAlign: "right" }}>
-              <p style={{ color: "var(--muted)", fontSize: 12 }}>Target Score</p>
-              <p style={{ color: "var(--orange)", fontWeight: 700, fontSize: 24 }}>{profile.aimedScore}%</p>
-            </div>
-          )}
+      {/* Profile card with inline edit */}
+      {profile ? (
+        <ProfileCard
+          profile={{
+            firstname: profile.firstname,
+            surname: profile.surname,
+            phone: profile.phone,
+            faculty: profile.faculty,
+            dept: profile.dept,
+            aimedScore: profile.aimedScore,
+          }}
+          matric={session!.user.matric ?? ""}
+        />
+      ) : (
+        <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 16 }} className="p-6 mb-6">
+          <p style={{ color: "var(--muted)", fontSize: 14 }}>Profile not set up yet.</p>
         </div>
+      )}
+
+      {/* Stats row */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        {statItems.map(({ label, value, color }) => (
+          <div
+            key={label}
+            className="stat-card"
+            style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, padding: "14px 16px" }}
+          >
+            <p style={{ color: "var(--muted)", fontSize: 12 }}>{label}</p>
+            <p style={{ color, fontWeight: 700, fontSize: 22, marginTop: 2 }}>{value}</p>
+          </div>
+        ))}
       </div>
+
+      {/* Score trend bars */}
+      {trend.length > 0 && (
+        <div
+          style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12 }}
+          className="p-4 mb-6"
+        >
+          <p style={{ color: "var(--muted)", fontSize: 12, fontWeight: 600, marginBottom: 10 }}>Recent Score Trend</p>
+          <div className="flex items-end gap-2" style={{ height: 60 }}>
+            {trend.map((t, i) => (
+              <div key={i} className="flex flex-col items-center gap-1" style={{ flex: 1 }}>
+                <p style={{ color: "var(--muted)", fontSize: 10 }}>{t.pct}%</p>
+                <div
+                  style={{
+                    width: "100%",
+                    height: `${Math.max(4, (t.pct / 100) * 40)}px`,
+                    background: t.pct >= 70 ? "var(--green)" : t.pct >= 50 ? "var(--orange)" : "var(--red)",
+                    borderRadius: 4,
+                    minHeight: 4,
+                  }}
+                />
+                <p style={{ color: "var(--muted)", fontSize: 9, textAlign: "center", lineHeight: 1.2 }}>{t.code}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* CTA */}
       <div
         style={{ background: "var(--dark)", borderRadius: 16 }}
-        className="p-6 mb-6 flex items-center justify-between"
+        className="p-5 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
       >
         <div>
-          <p style={{ color: "#fff", fontWeight: 700, fontSize: 18 }}>Ready to practice?</p>
+          <p style={{ color: "#fff", fontWeight: 700, fontSize: 16 }}>Ready to practice?</p>
           <p style={{ color: "var(--muted)", fontSize: 13 }}>Choose a course and start a quiz.</p>
         </div>
         <Link
           href="/quiz/select"
           style={{ background: "var(--orange)", color: "#fff", borderRadius: 8 }}
-          className="px-5 py-2.5 font-semibold text-sm hover:opacity-90 transition-opacity"
+          className="px-5 py-2.5 font-semibold text-sm hover:opacity-90 transition-opacity shrink-0"
         >
           Start a Quiz
         </Link>
@@ -67,7 +144,7 @@ export default async function ProfilePage() {
       {/* In-progress sessions */}
       {inProgress.length > 0 && (
         <section className="mb-6">
-          <h2 style={{ color: "var(--dark)", fontWeight: 700 }} className="mb-3">Resume In-Progress</h2>
+          <h2 style={{ color: "var(--dark)", fontWeight: 700, fontSize: 15 }} className="mb-3">Resume In-Progress</h2>
           <div className="flex flex-col gap-2">
             {inProgress.map((s) => (
               <Link
@@ -89,12 +166,16 @@ export default async function ProfilePage() {
 
       {/* Quiz history */}
       <section>
-        <h2 style={{ color: "var(--dark)", fontWeight: 700 }} className="mb-3">Quiz History</h2>
+        <h2 style={{ color: "var(--dark)", fontWeight: 700, fontSize: 15 }} className="mb-3">Quiz History</h2>
         {submitted.length === 0 ? (
-          <p style={{ color: "var(--muted)", fontSize: 13 }}>No completed quizzes yet.</p>
+          <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12 }} className="p-8 text-center">
+            <p style={{ color: "var(--muted)", fontSize: 24 }}>📝</p>
+            <p style={{ color: "var(--dark)", fontWeight: 600, fontSize: 14, marginTop: 8 }}>No quizzes yet</p>
+            <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 4 }}>Your completed quizzes will appear here.</p>
+          </div>
         ) : (
-          <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12 }} className="overflow-hidden">
-            <table className="w-full">
+          <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12 }} className="overflow-hidden overflow-x-auto">
+            <table className="w-full" style={{ minWidth: 480 }}>
               <thead>
                 <tr style={{ background: "var(--bg)", borderBottom: "1px solid var(--border)" }}>
                   {["Course", "Questions", "Score", "Date", ""].map((h) => (
@@ -106,19 +187,26 @@ export default async function ProfilePage() {
                 {submitted.map((s) => {
                   const pct = s.score !== null ? Math.round((s.score / s.numQuestions) * 100) : null;
                   const released = s.course.resultsReleased;
+                  const scoreColor = pct !== null && pct >= 70 ? "var(--green)" : pct !== null && pct >= 50 ? "var(--orange)" : "var(--red)";
                   return (
                     <tr key={s.id} style={{ borderBottom: "1px solid var(--border)" }}>
-                      <td style={{ color: "var(--dark)", fontWeight: 600, fontSize: 13 }} className="px-4 py-3">
-                        {s.course.code}
+                      <td className="px-4 py-3">
+                        <p style={{ color: "var(--dark)", fontWeight: 600, fontSize: 13 }}>{s.course.code}</p>
+                        <p style={{ color: "var(--muted)", fontSize: 11 }}>{s.course.name}</p>
                       </td>
                       <td style={{ color: "var(--muted)", fontSize: 13 }} className="px-4 py-3">{s.numQuestions}</td>
                       <td className="px-4 py-3">
                         {!released ? (
-                          <span style={{ color: "var(--muted)", fontSize: 12 }}>Pending release</span>
+                          <span style={{ color: "var(--muted)", fontSize: 12 }}>Pending</span>
                         ) : pct !== null ? (
-                          <span style={{ color: pct >= 70 ? "var(--green)" : pct >= 50 ? "var(--orange)" : "var(--red)", fontWeight: 700, fontSize: 13 }}>
-                            {s.score}/{s.numQuestions} ({pct}%)
-                          </span>
+                          <div>
+                            <span style={{ color: scoreColor, fontWeight: 700, fontSize: 13 }}>
+                              {s.score}/{s.numQuestions} ({pct}%)
+                            </span>
+                            <div style={{ height: 3, background: "var(--border)", borderRadius: 99, marginTop: 3, width: 60 }}>
+                              <div style={{ height: "100%", background: scoreColor, borderRadius: 99, width: `${pct}%` }} />
+                            </div>
+                          </div>
                         ) : "—"}
                       </td>
                       <td style={{ color: "var(--muted)", fontSize: 12 }} className="px-4 py-3">
@@ -127,7 +215,7 @@ export default async function ProfilePage() {
                       <td className="px-4 py-3">
                         {released && (
                           <Link href={`/results/${s.id}`} style={{ color: "var(--orange)", fontSize: 12 }} className="hover:underline font-medium">
-                            Review
+                            Review →
                           </Link>
                         )}
                       </td>
