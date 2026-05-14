@@ -46,8 +46,8 @@ export default function TutorSidebar({ links }: { links: NavLink[] }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  const SidebarInner = () => (
-    <aside
+  const SidebarContent = () => (
+    <div
       style={{ background: "var(--dark2)", width: 220, minHeight: "100vh" }}
       className="flex flex-col px-4 py-6 gap-1 h-full"
     >
@@ -98,12 +98,12 @@ export default function TutorSidebar({ links }: { links: NavLink[] }) {
           Sign out
         </Link>
       </div>
-    </aside>
+    </div>
   );
 
   return (
     <>
-      {/* Mobile hamburger */}
+      {/* Mobile hamburger — only shown on mobile */}
       <button
         onClick={() => setOpen(true)}
         className="md:hidden"
@@ -127,21 +127,17 @@ export default function TutorSidebar({ links }: { links: NavLink[] }) {
         />
       )}
 
-      {/* Sidebar — fixed position, slide in on mobile, always visible on desktop */}
+      {/* Sidebar: slides in on mobile, always visible on desktop.
+          Uses Tailwind translate classes (not inline transform) so md:translate-x-0
+          correctly overrides -translate-x-full via the same CSS property. */}
       <div
-        style={{
-          position: "fixed",
-          top: 0, left: 0, bottom: 0,
-          zIndex: 55,
-          transform: open ? "translateX(0)" : "translateX(-100%)",
-          transition: "transform 0.2s ease",
-        }}
-        className="md:translate-x-0"
+        style={{ position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 55 }}
+        className={`transition-transform duration-200 ease-out ${open ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
-        <SidebarInner />
+        <SidebarContent />
       </div>
 
-      {/* Desktop spacer — pushes main content right of the fixed sidebar */}
+      {/* Desktop spacer — keeps main content clear of the fixed sidebar */}
       <div className="hidden md:block shrink-0" style={{ width: 220 }} />
     </>
   );
